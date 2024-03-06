@@ -7,8 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class MvcConfig : WebMvcConfigurer {
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-        registry.addResourceHandler("/*.html")
-            .addResourceLocations("classpath:/templates/")
         registry.addResourceHandler("/assets/**")
             .addResourceLocations("classpath:/static/assets/")
         registry.addResourceHandler("/css/**")
