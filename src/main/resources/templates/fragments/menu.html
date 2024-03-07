@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<th:block th:fragment="menu">
+    <li th:each="article : ${marticles}" th:class="${class} ?: 'nav-item'">
+        <a th:href="@{${article.link}}" th:text="${article.title}" class="nav-link">Shortcodes</a>
+        <th:block th:if="${not #lists.isEmpty(article.childArticles)}">
+            <span class="icon"><i class="arrow_carrot-down"></i></span>
+            <ul class="list-unstyled dropdown_nav"
+                th:insert="~{fragments/menu :: menu}"
+                th:with="articles=${article.childArticles},class='nav-subitem'">
+            </ul>
+        </th:block>
+    </li>
+</th:block>
+</html>

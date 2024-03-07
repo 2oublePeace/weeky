@@ -1,6 +1,8 @@
 package com.emiryanvl.weeky.controllers
 
+import com.emiryanvl.weeky.dto.ArticleDto
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -14,7 +16,19 @@ class ArticleController {
     }
 
     @GetMapping("/home")
-    fun getHomeArticle(): String {
+    fun getHomeArticle(model: Model): String {
+        model.addAttribute("articles", mutableListOf(
+                ArticleDto(
+                    childArticles = mutableListOf(
+                        ArticleDto(
+                            childArticles = mutableListOf(
+                                ArticleDto()
+                            )
+                        )
+                    )
+                )
+            )
+        )
         return "article"
     }
 
