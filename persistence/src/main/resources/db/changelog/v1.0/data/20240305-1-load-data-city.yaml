@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240305-1-load-data-city
+      author: Emiryan Vladimir
+      changes:
+        - loadData:
+            columns:
+              - column:
+                  header: title
+                  name: title
+                  type: varchar(255)
+              - column:
+                  header: link
+                  name: link
+                  type: varchar(255)
+              - column:
+                  header: parent_link
+                  name: parent_link
+                  type: varchar(255)
+              - column:
+                  header: content
+                  name: content
+                  type: varchar(255)
+              - column:
+                  header: parent_article_id
+                  name: parent_article_id
+                  type: null
+            encoding: UTF-8
+            file: db/changelog/v1.0/data/homepage.csv
+            separator: ','
+            tableName: _article

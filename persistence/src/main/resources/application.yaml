@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:disk_accounting_test;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+server:
+  port: 8081
