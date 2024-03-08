@@ -17,7 +17,7 @@ class ArticleController {
 
     @GetMapping("/home")
     fun getHomeArticle(model: Model): String {
-        model.addAttribute("articles", mutableListOf(
+        model.addAttribute("menuArticles", mutableListOf(
                 ArticleDto(
                     childArticles = mutableListOf(
                         ArticleDto(
