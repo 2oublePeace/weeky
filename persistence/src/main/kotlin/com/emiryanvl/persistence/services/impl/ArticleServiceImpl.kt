@@ -15,17 +15,15 @@ class ArticleServiceImpl(
         private val articleMapper: ArticleMapper
     ) : ArticleService {
     override fun getArticle(link: String): ArticleResponse {
-        val temp = articleRepository.findByLink(link).orElseThrow(
-        notFoundException("Статья не найдена")
-        )
         return articleMapper.toArticleResponse(
-            temp
+            articleRepository.findByLink(link).orElseThrow(
+                notFoundException("Статья не найдена")
+            )
         )
     }
 
     override fun getArticles(): List<ArticleResponse> {
-        val a = articleRepository.findRootArticles().map { articleMapper.toArticleResponse(it) }
-        return a
+        return articleRepository.findMenuArticles().map { articleMapper.toArticleResponse(it) }
     }
 
     override fun createArticle(articleRequest: ArticleRequest): ArticleResponse {

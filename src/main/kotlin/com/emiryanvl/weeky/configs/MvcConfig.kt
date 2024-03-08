@@ -1,6 +1,8 @@
 package com.emiryanvl.weeky.configs
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.client.RestClient
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -18,4 +20,7 @@ class MvcConfig : WebMvcConfigurer {
         registry.addResourceHandler("/scss/**")
             .addResourceLocations("classpath:/static/scss/")
     }
+
+    @Bean
+    fun restClient() = RestClient.create()
 }
