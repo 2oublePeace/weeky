@@ -13,7 +13,7 @@ import org.springframework.web.client.body
 @Controller
 @RequestMapping("/")
 class ArticleController(private val restClient: RestClient) {
-    @GetMapping("/{*articleLink}")
+    @GetMapping("/home/{*articleLink}")
     fun getArticle(@PathVariable articleLink: String, model: Model): String {
         val menuArticles = restClient.get()
             .uri("http://localhost:8081/article")
@@ -22,7 +22,7 @@ class ArticleController(private val restClient: RestClient) {
             .body<List<ArticleDto>>()
 
         val currentArticle = restClient.get()
-            .uri("http://localhost:8081/article/$articleLink")
+            .uri("http://localhost:8081/article/home$articleLink")
             .accept(APPLICATION_JSON)
             .retrieve()
             .body<ArticleDto>()
