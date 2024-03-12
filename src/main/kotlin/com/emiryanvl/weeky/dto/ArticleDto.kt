@@ -1,9 +1,9 @@
 package com.emiryanvl.weeky.dto
 
 data class ArticleDto (
-        val title: String = "123",
-        val link: String = "123",
-        val parentLink: String = "123",
-        val content: String = "123",
+        var title: String = "123",
+        var link: String = "123",
+        var parentLink: String = "123",
+        var content: String = "123",
         val childArticles: List<ArticleDto> = emptyList()
 )

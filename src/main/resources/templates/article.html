@@ -3,6 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 
-<th:block layout:fragment="content"></th:block>
+<head>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <title>KbDoc</title>
+</head>
+
+<th:block layout:fragment="content">
+    <div id="viewer" style="height: 500px;"></div>
+</th:block>
+
+<th:block layout:fragment="optional">
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script th:replace="~{fragments/viewer :: viewer}"></script>
+</th:block>
 
 </html>

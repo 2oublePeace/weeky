@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:fragment="viewer" th:inline="javascript">
+  const viewer = toastui.Editor.factory({
+    el: document.querySelector('#viewer'),
+    viewer: true,
+    initialValue: [[${content}]]
+  });
+</script>
+</html>

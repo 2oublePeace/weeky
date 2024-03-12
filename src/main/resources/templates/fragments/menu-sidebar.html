@@ -8,7 +8,7 @@
   <div class="scroll">
     <ul class="list-unstyled nav-sidebar">
       <li class="nav-item active">
-        <a href="article.html" class="nav-link"><img src="/img/side-nav/home.png" alt="">Home</a>
+        <a th:href="@{/article/home}" class="nav-link"><img src="/img/side-nav/home.png" alt="">Home</a>
       </li>
       <th:block th:replace="~{fragments/menu-item :: menu-item}"/>
     </ul>

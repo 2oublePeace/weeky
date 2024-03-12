@@ -1,2 +1,6 @@
 title,link,parent_link,content,parent_article_id
-Главная страница,/home,/,**Введите контент**, null
+Главная страница,/article/home,/article,**Введите контент**,
+Первая страница,/article/home/football,/article/home,**Введите контент**,1
+Вторая страница,/article/home/volleyball,/article/home,**Введите контент**,1
+Третья страница,/article/home/basketball,/article/home,**Введите контент**,1
+Подпервая страница,/article/home/football/chelsea,/article/home/football,**Введите контент**,2
