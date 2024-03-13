@@ -19,4 +19,34 @@
     <script src="/assets/mcustomscrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="/js/main.js"></script>
 </th:block>
+
+<script th:fragment="editor" th:inline="javascript">
+    const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        initialValue: [[${content}]],
+        initialEditType: 'wysiwyg'
+    });
+</script>
+
+<script th:fragment="viewer" th:inline="javascript">
+    const viewer = toastui.Editor.factory({
+        el: document.querySelector('#viewer'),
+        viewer: true,
+        initialValue: [[${content}]]
+    });
+</script>
+
+<script th:fragment="save-article">
+    function saveArticle() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const articleLink = urlParams.get('currentLink');
+        const editedContent = editor.getMarkdown()
+        $.post("/editor/save", {link: articleLink, content: editedContent})
+            .done(function() {
+                window.location.href = articleLink;
+            });
+    }
+</script>
+
 </html>

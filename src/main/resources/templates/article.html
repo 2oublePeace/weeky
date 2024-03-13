@@ -9,12 +9,12 @@
 </head>
 
 <th:block layout:fragment="content">
-    <div id="viewer" style="height: 500px;"></div>
+    <div id="viewer" style="height: 1200px;"></div>
 </th:block>
 
 <th:block layout:fragment="optional">
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <script th:replace="~{fragments/viewer :: viewer}"></script>
+    <script th:replace="~{fragments/scripts :: viewer}"></script>
 </th:block>
 
 </html>
