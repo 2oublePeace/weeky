@@ -16,8 +16,8 @@ class ArticleController(private val articleService: ArticleService) {
     }
 
     @GetMapping
-    fun getArticles() : ResponseEntity<List<ArticleResponse>> {
-        return ResponseEntity<List<ArticleResponse>>(articleService.getArticles(), HttpStatus.OK)
+    fun getMenuArticles() : ResponseEntity<List<ArticleResponse>> {
+        return ResponseEntity<List<ArticleResponse>>(articleService.getMenuArticles(), HttpStatus.OK)
     }
 
     @PostMapping
@@ -25,9 +25,9 @@ class ArticleController(private val articleService: ArticleService) {
         return ResponseEntity<ArticleResponse>(articleService.createArticle(articleRequest), HttpStatus.CREATED)
     }
 
-    @PutMapping("/{id}")
-    fun updateArticle(@PathVariable id: Long, @RequestBody articleRequest: ArticleRequest): ResponseEntity<ArticleResponse> {
-        return ResponseEntity<ArticleResponse>(articleService.updateArticle(id, articleRequest), HttpStatus.OK)
+    @PutMapping("/{*link}")
+    fun updateArticle(@PathVariable link: String, @RequestBody articleRequest: ArticleRequest): ResponseEntity<ArticleResponse> {
+        return ResponseEntity<ArticleResponse>(articleService.updateArticle(link, articleRequest), HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")

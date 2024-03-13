@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<script th:fragment="viewer" th:inline="javascript">
-  const viewer = toastui.Editor.factory({
-    el: document.querySelector('#viewer'),
-    viewer: true,
-    initialValue: [[${content}]]
-  });
+<script th:fragment="editor" th:inline="javascript">
+    const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        initialValue: [[${content}]],
+        initialEditType: 'wysiwyg'
+    });
 </script>
 </html>

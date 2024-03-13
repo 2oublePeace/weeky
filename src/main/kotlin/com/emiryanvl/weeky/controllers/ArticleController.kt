@@ -57,4 +57,9 @@ class ArticleController(private val restClient: RestClient) {
             .toBodilessEntity()
         return "redirect:$parentLink"
     }
+
+    @GetMapping("/test")
+    fun testArticle() {
+        print("asdadasd")
+    }
 }

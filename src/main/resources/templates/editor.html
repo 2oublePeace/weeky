@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <title>Editor</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div id="editor" style="height: 500px;"></div>
+    <button onClick="saveArticle()" class="doc_border_btn btn_small">Сохранить</button>
+    <script>
+        function saveArticle() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var currentLink = urlParams.get('currentLink');
+            $.post("/editor/save", {link: currentLink, content: editor.getMarkdown()})
+                .done(function() {
+                    window.location.href = currentLink;
+                });
+        }
+    </script>
+</th:block>
+
+<th:block layout:fragment="optional">
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script th:replace="~{fragments/editor :: editor}"></script>
+</th:block>
+</body>
+</html>
