@@ -26,7 +26,7 @@ class ArticleController(private val restClient: RestClient) {
             .body<ArticleDto>()
 
         model.addAttribute("menuArticles", menuArticles)
-        if (currentArticle != null) {
+        currentArticle?.let {
             model.addAttribute("currentLink", currentArticle.link)
             model.addAttribute("content", currentArticle.content)
         }
@@ -56,10 +56,5 @@ class ArticleController(private val restClient: RestClient) {
             .retrieve()
             .toBodilessEntity()
         return "redirect:$parentLink"
-    }
-
-    @GetMapping("/test")
-    fun testArticle() {
-        print("asdadasd")
     }
 }

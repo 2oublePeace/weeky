@@ -30,7 +30,7 @@ class EditorController(private val restClient: RestClient) {
             .body<ArticleDto>()
 
         model.addAttribute("menuArticles", menuArticles)
-        if (currentArticle != null) {
+        currentArticle?.let {
             model.addAttribute("currentLink", currentArticle.link)
             model.addAttribute("content", currentArticle.content)
         }
