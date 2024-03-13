@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<aside class="doc_left_sidebarlist" th:fragment="menu-sidebar">
+  <div class="open_icon" id="left">
+    <i class="arrow_carrot-right"></i>
+    <i class="arrow_carrot-left"></i>
+  </div>
+  <div class="scroll">
+    <ul class="list-unstyled nav-sidebar">
+      <li class="nav-item active">
+        <a th:href="@{/article/home}" class="nav-link"><img src="/img/side-nav/home.png" alt="">Home</a>
+      </li>
+      <th:block th:replace="~{fragments/menu-item :: menu-item}"/>
+    </ul>
+    <ul class="list-unstyled nav-sidebar coding_nav">
+      <li class="nav-item">
+        <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Account</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link"><img src="/img/side-nav/coding.png" alt="">Development</a>
+      </li>
+    </ul>
+    <ul class="list-unstyled nav-sidebar bottom_nav">
+      <li class="nav-item">
+        <a href="#" class="nav-link"><img src="/img/side-nav/united-states.png" alt="">Unlted States</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link"><img src="/img/side-nav/edit.png" alt="">English </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link"><img src="/img/side-nav/users.png" alt="">Sign In <i class="arrow_right"></i></a>
+      </li>
+    </ul>
+  </div>
+</aside>
+</html>

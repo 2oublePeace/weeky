@@ -237,31 +237,15 @@
 	}
 
 	/*--------------- nav-sidebar js--------*/
-	if ($('.nav-sidebar > li').hasClass('active')) {
-		$(".nav-sidebar > li.active").find('ul').slideDown(700);
-	}
 
 	function active_dropdown() {
 		$('.nav-sidebar > li .icon').on('click', function (e) {
+			$(this).find('i').toggleClass('arrow_carrot-down arrow_carrot-up');
 			$(this).parent().find('ul').first().toggle(300);
-			$(this).parent().siblings().find('ul').hide(300);
 		});
 	}
 
 	active_dropdown();
-
-	$('.nav-sidebar > li .icon').each(function () {
-		var $this = $(this);
-		$this.on('click', function (e) {
-			var has = $this.parent().hasClass('active');
-			$('.nav-sidebar li').removeClass('active');
-			if (has) {
-				$this.parent().removeClass('active');
-			} else {
-				$this.parent().addClass('active');
-			}
-		});
-	});
 
 	/*--------------- mobile dropdown js--------*/
 	function active_dropdown2() {

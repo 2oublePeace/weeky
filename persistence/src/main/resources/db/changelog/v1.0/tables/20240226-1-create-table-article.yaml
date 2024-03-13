@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240226-1-create-table-article
+      author: Emiryan Vladimir
+      changes:
+        - createTable:
+            tableName: _article
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: link
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_link
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: content
+                  type: varchar
+                  constraints:
+                    nullable: true
+              - column:
+                  name: parent_article_id
+                  type: int(10)
+                  constraints:
+                    nullable: true

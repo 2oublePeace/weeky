@@ -1,14 +1,14 @@
 package com.emiryanvl.weeky.configs
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.client.RestClient
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class MvcConfig : WebMvcConfigurer {
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-        registry.addResourceHandler("/*.html")
-            .addResourceLocations("classpath:/templates/")
         registry.addResourceHandler("/assets/**")
             .addResourceLocations("classpath:/static/assets/")
         registry.addResourceHandler("/css/**")
@@ -20,4 +20,7 @@ class MvcConfig : WebMvcConfigurer {
         registry.addResourceHandler("/scss/**")
             .addResourceLocations("classpath:/static/scss/")
     }
+
+    @Bean
+    fun restClient() = RestClient.create()
 }
