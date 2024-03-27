@@ -7,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
-class UserMapper {
+class UserMapper(private val passwordEncoder: PasswordEncoder) {
     fun toUserEntity(userRequest: UserRequest): UserEntity {
         return UserEntity(
             userRequest.username,
-            userRequest.password,
+            passwordEncoder.encode(userRequest.password),
             userRequest.role
         )
     }

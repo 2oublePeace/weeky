@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserServiceImpl(
-        private val userRepository: UserRepository,
-        private val userMapper: UserMapper
+    private val userRepository: UserRepository,
+    private val userMapper: UserMapper
 ) : UserService {
     override fun getUser(id: Long): UserResponse {
         return userMapper.toUserResponse(
