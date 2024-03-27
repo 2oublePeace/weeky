@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 20240305-1-load-data-city
+      id: 20240305-1-load-data-articles
       author: Emiryan Vladimir
       changes:
         - loadData:
