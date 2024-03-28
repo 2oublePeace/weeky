@@ -1,9 +1,9 @@
-package com.emiryanvl.persistence.configs
+package com.emiryanvl.weeky.configs
 
-import com.emiryanvl.persistence.repositories.UserRepository
+import com.emiryanvl.weeky.dto.UserDto
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.body
 
 @Configuration
 @EnableWebSecurity
@@ -25,10 +27,12 @@ class SecurityConfig {
                 .disable()
             }
             .authorizeHttpRequests { it
-                .requestMatchers(HttpMethod.POST,"/user").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/article/**").authenticated()
+                .anyRequest().permitAll()
             }
-            .formLogin {  }
+            .formLogin { it
+                .loginPage("/signin")
+            }
             .logout { it
                 .logoutUrl("/logout")
             }
@@ -40,10 +44,15 @@ class SecurityConfig {
     fun passwordEncoder() : PasswordEncoder = BCryptPasswordEncoder()
 
     @Bean
-    fun userDetailsService(userRepository: UserRepository): UserDetailsService {
+    fun userDetailsService(restClient: RestClient): UserDetailsService {
         return UserDetailsService {
-            val user = userRepository.findByUsername(it)
-                ?: throw UsernameNotFoundException("Пользователь не найден")
+            val user = restClient.get()
+                .uri("http://localhost:8081/user/$it")
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body<UserDto>() ?:
+                throw UsernameNotFoundException("Пользователь не найден")
+
             User.builder()
                 .username(user.username)
                 .password(user.password)

@@ -14,9 +14,9 @@ class UserServiceImpl(
     private val userRepository: UserRepository,
     private val userMapper: UserMapper
 ) : UserService {
-    override fun getUser(id: Long): UserResponse {
+    override fun getUser(username: String): UserResponse {
         return userMapper.toUserResponse(
-            userRepository.findById(id).orElseThrow(
+            userRepository.findByUsername(username).orElseThrow(
                 notFoundException("Пользователь не найден")
             )
         )
