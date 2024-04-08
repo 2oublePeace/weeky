@@ -12,10 +12,7 @@ import org.springframework.web.client.RestClient
 
 @Controller
 @RequestMapping
-class AuthController(
-    private val restClient: RestClient,
-    private val passwordEncoder: PasswordEncoder
-) {
+class AuthController(private val restClient: RestClient, private val passwordEncoder: PasswordEncoder) {
     @GetMapping("/signin")
     fun getSignIn(): String = "signin"
 
@@ -23,10 +20,7 @@ class AuthController(
     fun getSignUp(): String = "signup"
 
     @PostMapping("/register")
-    fun registerUser(
-        @RequestParam username: String,
-        @RequestParam password: String,
-    ) {
+    fun registerUser(@RequestParam username: String, @RequestParam password: String) {
         restClient.post()
             .uri("http://localhost:8081/user")
             .contentType(MediaType.APPLICATION_JSON)

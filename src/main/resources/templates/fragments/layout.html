@@ -3,20 +3,52 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <th:block th:replace="~{fragments/head :: head}"/>
+    <th:block th:replace="~{fragments/layout-head :: head}"/>
     <title>KbDoc</title>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-example3" data-offset="86" data-scroll-animation="true" class="doc">
 <th:block th:replace="~{fragments/preloader :: preloader}"/>
 <div class="body_wrapper">
-    <th:block th:replace="~{fragments/header :: header}"/>
+    <th:block th:replace="~{fragments/layout-header :: header}"/>
     <section class="doc_documentation_area" id="sticky_doc">
         <div class="overlay_bg"></div>
         <div class="container custom_container">
             <div class="row">
                 <div class="col-lg-3 doc_mobile_menu display_none">
-                    <th:block th:replace="~{fragments/menu-sidebar :: menu-sidebar}"/>
+                    <aside class="doc_left_sidebarlist" th:fragment="menu-sidebar">
+                        <div class="open_icon" id="left">
+                            <i class="arrow_carrot-right"></i>
+                            <i class="arrow_carrot-left"></i>
+                        </div>
+                        <div class="scroll">
+                            <ul class="list-unstyled nav-sidebar">
+                                <li class="nav-item active">
+                                    <a th:href="@{/article/home}" class="nav-link"><img src="/img/side-nav/home.png" alt="">Home</a>
+                                </li>
+                                <th:block th:replace="~{fragments/menu-item :: menu-item}"/>
+                            </ul>
+                            <ul class="list-unstyled nav-sidebar coding_nav">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Account</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/coding.png" alt="">Development</a>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled nav-sidebar bottom_nav">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/united-states.png" alt="">Unlted States</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/edit.png" alt="">English </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/users.png" alt="">Sign In <i class="arrow_right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
                 </div>
                 <div class="col-lg-7 col-md-8">
                     <div id="post" class="documentation_info">
@@ -56,10 +88,10 @@
             </div>
         </div>
     </section>
-    <th:block th:replace="~{fragments/footer :: footer}"/>
+    <th:block th:replace="~{fragments/layout-footer :: footer}"/>
 </div>
 <th:block th:replace="~{fragments/modal :: modal}"/>
-<th:block th:replace="~{fragments/scripts :: scripts}"/>
+<th:block th:replace="~{fragments/scripts :: layout-scripts}"/>
 <th:block layout:fragment="optional" />
 </body>
 
