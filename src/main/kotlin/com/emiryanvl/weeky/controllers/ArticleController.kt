@@ -26,8 +26,10 @@ class ArticleController(private val restClient: RestClient) {
             .body<ArticleDto>()
 
         model.addAttribute("menuArticles", menuArticles)
-        model.addAttribute("currentLink", currentArticle?.link)
-        model.addAttribute("content", currentArticle?.content)
+        currentArticle?.let {
+            model.addAttribute("currentLink", currentArticle.link)
+            model.addAttribute("content", currentArticle.content)
+        }
 
         return "article"
     }
@@ -58,10 +60,13 @@ class ArticleController(private val restClient: RestClient) {
             .retrieve()
             .body<ArticleDto>()
 
-        restClient.delete()
-            .uri("http://localhost:8081/article${currentArticle?.title}")
-            .retrieve()
-            .toBodilessEntity()
+        currentArticle?.let {
+            restClient.delete()
+                .uri("http://localhost:8081/article/${currentArticle.title}")
+                .retrieve()
+                .toBodilessEntity()
+
+        }
 
         return "redirect:${currentArticle?.parentLink}"
     }

@@ -17,8 +17,6 @@ class MvcConfig : WebMvcConfigurer {
             .addResourceLocations("classpath:/static/img/")
         registry.addResourceHandler("/js/**")
             .addResourceLocations("classpath:/static/js/")
-        registry.addResourceHandler("/scss/**")
-            .addResourceLocations("classpath:/static/scss/")
     }
 
     @Bean

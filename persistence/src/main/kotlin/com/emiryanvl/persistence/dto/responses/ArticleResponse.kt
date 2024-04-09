@@ -3,7 +3,6 @@ package com.emiryanvl.persistence.dto.responses
 import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class ArticleResponse(
-    @JsonIgnore
     val id: Long? = null,
     val title: String,
     val link: String,

@@ -27,12 +27,15 @@ class SecurityConfig {
                 .disable()
             }
             .authorizeHttpRequests { it
-                .requestMatchers("/signup", "/register", "/assets/**", "/css/**", "/img/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/signup", "/register", "/assets/**", "/css/**", "/img/**", "/js/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
             }
             .formLogin { it
-                .loginPage("/signin").permitAll()
+                .loginPage("/signin")
                 .defaultSuccessUrl("/article/home")
+                .permitAll()
             }
             .logout { it
                 .logoutUrl("/logout")

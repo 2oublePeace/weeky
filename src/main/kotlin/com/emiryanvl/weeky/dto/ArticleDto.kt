@@ -5,5 +5,6 @@ data class ArticleDto (
     var link: String = "123",
     var parentLink: String = "123",
     var content: String = "123",
-    val childArticles: List<ArticleDto> = emptyList()
+    val childArticles: List<ArticleDto> = emptyList(),
+    var id: Long? = null
 )

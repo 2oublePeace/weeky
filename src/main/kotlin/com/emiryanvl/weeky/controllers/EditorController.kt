@@ -54,6 +54,7 @@ class EditorController(private val restClient: RestClient) {
                 .retrieve()
                 .toBodilessEntity()
         }
+
         return "redirect:$link"
     }
 }

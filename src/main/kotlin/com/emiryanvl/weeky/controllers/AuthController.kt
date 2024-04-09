@@ -19,13 +19,15 @@ class AuthController(private val restClient: RestClient, private val passwordEnc
     @GetMapping("/signup")
     fun getSignUp(): String = "signup"
 
-    @PostMapping("/register")
-    fun registerUser(@RequestParam username: String, @RequestParam password: String) {
+    @PostMapping("/signup")
+    fun registerUser(@RequestParam username: String, @RequestParam password: String): String {
         restClient.post()
             .uri("http://localhost:8081/user")
             .contentType(MediaType.APPLICATION_JSON)
             .body(UserDto(username, passwordEncoder.encode(password)))
             .retrieve()
             .toBodilessEntity()
+
+        return "redirect:/signin"
     }
 }
