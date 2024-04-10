@@ -22,20 +22,16 @@ import org.springframework.web.client.body
 class SecurityConfig {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http
-            .csrf { it
+        http.csrf { it
                 .disable()
             }
             .authorizeHttpRequests { it
-                .requestMatchers("/signup", "/register", "/assets/**", "/css/**", "/img/**", "/js/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/signup", "/assets/**", "/css/**", "/img/**", "/js/**").permitAll()
+                .anyRequest().authenticated()
             }
             .formLogin { it
                 .loginPage("/signin")
-                .defaultSuccessUrl("/article/home")
-                .permitAll()
+                .defaultSuccessUrl("/article/home").permitAll()
             }
             .logout { it
                 .logoutUrl("/logout")
