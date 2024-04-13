@@ -15,9 +15,9 @@ class ArticleController(private val articleService: ArticleService) {
         return articleService.getArticle(link)
     }
 
-    @GetMapping
-    fun getMenuArticles() : ResponseEntity<List<ArticleResponse>> {
-        return ResponseEntity<List<ArticleResponse>>(articleService.getMenuArticles(), HttpStatus.OK)
+    @GetMapping("/menu/{username}")
+    fun getMenuArticles(@PathVariable username: String) : ResponseEntity<List<ArticleResponse>> {
+        return ResponseEntity<List<ArticleResponse>>(articleService.getMenuArticles(username), HttpStatus.OK)
     }
 
     @PostMapping

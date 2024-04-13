@@ -7,6 +7,6 @@ import java.util.*
 
 interface ArticleRepository : JpaRepository<ArticleEntity, Long> {
     fun findByLink(link: String): Optional<ArticleEntity>
-    @Query("select a from ArticleEntity a where a.parentLink = '/article/home'")
-    fun findMenuArticles(): List<ArticleEntity>
+    @Query("select a from ArticleEntity a where a.parentLink = CONCAT('/' , :username, '/home')")
+    fun findMenuArticles(username: String): List<ArticleEntity>
 }

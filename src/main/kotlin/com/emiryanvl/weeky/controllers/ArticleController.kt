@@ -1,7 +1,6 @@
 package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
-import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -10,30 +9,34 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Controller
-@RequestMapping("/article")
+@RequestMapping("{username}")
 class ArticleController(private val restClient: RestClient) {
     @GetMapping("/home/{*articleLink}")
-    fun getArticle(@PathVariable articleLink: String, model: Model): String {
+    fun getArticle(@PathVariable username: String, @PathVariable articleLink: String, model: Model): String {
         val menuArticles = restClient.get()
-            .uri("http://localhost:8081/article")
+            .uri("http://localhost:8081/article/menu/$username")
             .accept(APPLICATION_JSON)
             .retrieve()
             .body<List<ArticleDto>>()
 
         val currentArticle = restClient.get()
-            .uri("http://localhost:8081/article/article/home$articleLink")
+            .uri("http://localhost:8081/article/$username/home$articleLink")
             .accept(APPLICATION_JSON)
             .retrieve()
             .body<ArticleDto>()
 
         val homeArticle = restClient.get()
-            .uri("http://localhost:8081/article/article/home")
+            .uri("http://localhost:8081/article/$username/home")
             .accept(APPLICATION_JSON)
             .retrieve()
             .body<ArticleDto>()
 
         model.addAttribute("menuArticles", menuArticles)
-        homeArticle?.let { model.addAttribute("homeArticleTitle", it.title) }
+        model.addAttribute("username", username)
+        homeArticle?.let {
+            model.addAttribute("homeArticleTitle", it.title)
+            model.addAttribute("homeArticleLink", it.link)
+        }
         currentArticle?.let {
             model.addAttribute("currentLink", it.link)
             model.addAttribute("content", it.content)
@@ -43,9 +46,9 @@ class ArticleController(private val restClient: RestClient) {
     }
 
     @GetMapping("/edit")
-    fun editArticle(@RequestParam currentLink: String, model: Model): String {
+    fun editArticle(@PathVariable username: String, @RequestParam currentLink: String, model: Model): String {
         val menuArticles = restClient.get()
-            .uri("http://localhost:8081/article")
+            .uri("http://localhost:8081/article/menu/$username")
             .accept(APPLICATION_JSON)
             .retrieve()
             .body<List<ArticleDto>>()
@@ -56,11 +59,22 @@ class ArticleController(private val restClient: RestClient) {
             .retrieve()
             .body<ArticleDto>()
 
+        val homeArticle = restClient.get()
+            .uri("http://localhost:8081/article/$username/home")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
+
         model.addAttribute("menuArticles", menuArticles)
+        model.addAttribute("username", username)
+        homeArticle?.let {
+            model.addAttribute("homeArticleTitle", it.title)
+            model.addAttribute("homeArticleLink", it.link)
+        }
         currentArticle?.let {
+            model.addAttribute("title", it.title)
             model.addAttribute("currentLink", it.link)
             model.addAttribute("content", it.content)
-            model.addAttribute("title", it.title)
         }
 
         return "editor"

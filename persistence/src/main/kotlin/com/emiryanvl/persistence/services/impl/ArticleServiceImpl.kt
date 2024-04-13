@@ -22,8 +22,8 @@ class ArticleServiceImpl(
         )
     }
 
-    override fun getMenuArticles(): List<ArticleResponse> {
-        return articleRepository.findMenuArticles().map { articleMapper.toArticleResponse(it) }
+    override fun getMenuArticles(username: String): List<ArticleResponse> {
+        return articleRepository.findMenuArticles(username).map { articleMapper.toArticleResponse(it) }
     }
 
     override fun createArticle(articleRequest: ArticleRequest): ArticleResponse {
