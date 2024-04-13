@@ -26,10 +26,17 @@ class ArticleController(private val restClient: RestClient) {
             .retrieve()
             .body<ArticleDto>()
 
+        val homeArticle = restClient.get()
+            .uri("http://localhost:8081/article/article/home")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
+
         model.addAttribute("menuArticles", menuArticles)
+        homeArticle?.let { model.addAttribute("homeArticleTitle", it.title) }
         currentArticle?.let {
-            model.addAttribute("currentLink", currentArticle.link)
-            model.addAttribute("content", currentArticle.content)
+            model.addAttribute("currentLink", it.link)
+            model.addAttribute("content", it.content)
         }
 
         return "article"
@@ -51,8 +58,9 @@ class ArticleController(private val restClient: RestClient) {
 
         model.addAttribute("menuArticles", menuArticles)
         currentArticle?.let {
-            model.addAttribute("currentLink", currentArticle.link)
-            model.addAttribute("content", currentArticle.content)
+            model.addAttribute("currentLink", it.link)
+            model.addAttribute("content", it.content)
+            model.addAttribute("title", it.title)
         }
 
         return "editor"
@@ -86,7 +94,7 @@ class ArticleController(private val restClient: RestClient) {
 
         currentArticle?.let {
             restClient.delete()
-                .uri("http://localhost:8081/article/${currentArticle.id}")
+                .uri("http://localhost:8081/article/${it.id}")
                 .retrieve()
                 .toBodilessEntity()
         }

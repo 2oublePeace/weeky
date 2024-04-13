@@ -24,7 +24,10 @@
                         <div class="scroll">
                             <ul class="list-unstyled nav-sidebar">
                                 <li class="nav-item active">
-                                    <a th:href="@{/article/home}" class="nav-link"><img src="/img/side-nav/home.png" alt="">Home</a>
+                                    <a th:href="@{/article/home}" class="nav-link">
+                                        <img src="/img/side-nav/home.png" alt="">
+                                        <span th:text="${homeArticleTitle}">Главная страница</span>
+                                    </a>
                                 </li>
                                 <th:block th:replace="~{fragments/menu-item :: menu-item}"/>
                             </ul>

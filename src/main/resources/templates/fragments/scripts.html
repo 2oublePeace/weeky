@@ -42,7 +42,8 @@
         const urlParams = new URLSearchParams(queryString);
         const articleLink = urlParams.get('currentLink');
         const editedContent = editor.getMarkdown()
-        $.post("/editor/save", { link: articleLink, content: editedContent })
+        const articleTitle = $('input[name="title"]').val();
+        $.post("/editor/save", { link: articleLink, content: editedContent, title: articleTitle })
             .done(function() {
                 window.location.href = articleLink;
             });

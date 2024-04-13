@@ -15,7 +15,12 @@ import org.springframework.web.client.body
 @RequestMapping("/editor")
 class EditorController(private val restClient: RestClient) {
     @PostMapping("/save")
-    fun saveArticle(@RequestParam link: String, @RequestParam content: String,  model: Model): String {
+    fun saveArticle(
+        @RequestParam link: String,
+        @RequestParam content: String,
+        @RequestParam title: String,
+        model: Model
+    ): String {
         val currentArticle = restClient.get()
             .uri("http://localhost:8081/article$link")
             .accept(MediaType.APPLICATION_JSON)
@@ -24,6 +29,7 @@ class EditorController(private val restClient: RestClient) {
 
         currentArticle?.let {
             currentArticle.content = content
+            currentArticle.title = title
             restClient.put()
                 .uri("http://localhost:8081/article$link")
                 .contentType(MediaType.APPLICATION_JSON)
