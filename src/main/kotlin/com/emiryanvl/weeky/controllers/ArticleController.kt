@@ -13,71 +13,7 @@ import org.springframework.web.client.body
 class ArticleController(private val restClient: RestClient) {
     @GetMapping("/home/{*articleLink}")
     fun getArticle(@PathVariable username: String, @PathVariable articleLink: String, model: Model): String {
-        val menuArticles = restClient.get()
-            .uri("http://localhost:8081/article/menu/$username")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<List<ArticleDto>>()
-
-        val currentArticle = restClient.get()
-            .uri("http://localhost:8081/article/$username/home$articleLink")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
-
-        val homeArticle = restClient.get()
-            .uri("http://localhost:8081/article/$username/home")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
-
-        model.addAttribute("menuArticles", menuArticles)
-        model.addAttribute("username", username)
-        homeArticle?.let {
-            model.addAttribute("homeArticleTitle", it.title)
-            model.addAttribute("homeArticleLink", it.link)
-        }
-        currentArticle?.let {
-            model.addAttribute("currentLink", it.link)
-            model.addAttribute("content", it.content)
-        }
-
-        return "article"
-    }
-
-    @GetMapping("/edit")
-    fun editArticle(@PathVariable username: String, @RequestParam currentLink: String, model: Model): String {
-        val menuArticles = restClient.get()
-            .uri("http://localhost:8081/article/menu/$username")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<List<ArticleDto>>()
-
-        val currentArticle = restClient.get()
-            .uri("http://localhost:8081/article$currentLink")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
-
-        val homeArticle = restClient.get()
-            .uri("http://localhost:8081/article/$username/home")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
-
-        model.addAttribute("menuArticles", menuArticles)
-        model.addAttribute("username", username)
-        homeArticle?.let {
-            model.addAttribute("homeArticleTitle", it.title)
-            model.addAttribute("homeArticleLink", it.link)
-        }
-        currentArticle?.let {
-            model.addAttribute("title", it.title)
-            model.addAttribute("currentLink", it.link)
-            model.addAttribute("content", it.content)
-        }
-
-        return "editor"
+        return getTemplate(username, "/$username/home$articleLink", "article", model)
     }
 
     @PostMapping("/create")
@@ -98,6 +34,11 @@ class ArticleController(private val restClient: RestClient) {
         return "redirect:$link"
     }
 
+    @GetMapping("/edit")
+    fun editArticle(@PathVariable username: String, @RequestParam currentLink: String, model: Model): String {
+        return getTemplate(username, currentLink, "editor", model)
+    }
+
     @GetMapping("/delete")
     fun deleteArticle(@RequestParam currentLink: String): String {
         val currentArticle = restClient.get()
@@ -114,5 +55,32 @@ class ArticleController(private val restClient: RestClient) {
         }
 
         return "redirect:${currentArticle?.parentLink}"
+    }
+
+    private fun getTemplate(username: String, link: String, template: String, model: Model): String {
+        val menuArticles = restClient.get()
+            .uri("http://localhost:8081/article/menu/$username")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<List<ArticleDto>>()
+
+        val currentArticle = restClient.get()
+            .uri("http://localhost:8081/article/$link")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
+
+        val homeArticle = restClient.get()
+            .uri("http://localhost:8081/article/$username/home")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
+
+        model.addAttribute("menuArticles", menuArticles)
+        model.addAttribute("username", username)
+        homeArticle?.let { model.addAttribute("homeArticle", it) }
+        currentArticle?.let { model.addAttribute("currentArticle", it) }
+
+        return template
     }
 }

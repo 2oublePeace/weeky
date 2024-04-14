@@ -23,7 +23,7 @@
 <script th:fragment="editor" th:inline="javascript">
     const editor = new toastui.Editor({
         el: document.querySelector('#editor'),
-        initialValue: [[${content}]],
+        initialValue: [[${currentArticle.content}]],
         initialEditType: 'wysiwyg'
     });
 </script>
@@ -32,7 +32,7 @@
     const viewer = toastui.Editor.factory({
         el: document.querySelector('#viewer'),
         viewer: true,
-        initialValue: [[${content}]]
+        initialValue: [[${currentArticle.content}]]
     });
 </script>
 

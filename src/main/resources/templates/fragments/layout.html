@@ -24,19 +24,19 @@
                         <div class="scroll">
                             <ul class="list-unstyled nav-sidebar">
                                 <li class="nav-item active">
-                                    <a th:href="${homeArticleLink}" class="nav-link">
+                                    <a th:href="${homeArticle.link}" class="nav-link">
                                         <img src="/img/side-nav/home.png" alt="">
-                                        <span th:text="${homeArticleTitle}">Главная страница</span>
+                                        <span th:text="${homeArticle.title}">Главная страница</span>
                                     </a>
                                 </li>
                                 <th:block th:replace="~{fragments/menu-item :: menu-item}"/>
                             </ul>
                             <ul class="list-unstyled nav-sidebar coding_nav">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Account</a>
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Аккаунт</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/coding.png" alt="">Development</a>
+                                    <a href="#" class="nav-link"><img src="/img/side-nav/book.png" alt="">Библиотека</a>
                                 </li>
                             </ul>
                             <ul class="list-unstyled nav-sidebar bottom_nav">
