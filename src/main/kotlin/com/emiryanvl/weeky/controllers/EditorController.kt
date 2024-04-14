@@ -30,7 +30,7 @@ class EditorController(private val restClient: RestClient) {
             currentArticle.content = content
             currentArticle.title = title
             restClient.put()
-                .uri("http://localhost:8081/article$link")
+                .uri("http://localhost:8081/article/${it.id}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(it)
                 .retrieve()

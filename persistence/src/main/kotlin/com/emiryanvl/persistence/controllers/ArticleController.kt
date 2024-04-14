@@ -25,9 +25,9 @@ class ArticleController(private val articleService: ArticleService) {
         return ResponseEntity<ArticleResponse>(articleService.createArticle(articleRequest), HttpStatus.CREATED)
     }
 
-    @PutMapping("/{*link}")
-    fun updateArticle(@PathVariable link: String, @RequestBody articleRequest: ArticleRequest): ResponseEntity<ArticleResponse> {
-        return ResponseEntity<ArticleResponse>(articleService.updateArticle(link, articleRequest), HttpStatus.OK)
+    @PutMapping("/{id}")
+    fun updateArticle(@PathVariable id: Long, @RequestBody articleRequest: ArticleRequest): ResponseEntity<ArticleResponse> {
+        return ResponseEntity<ArticleResponse>(articleService.updateArticle(id, articleRequest), HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")

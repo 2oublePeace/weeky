@@ -7,6 +7,6 @@ interface ArticleService {
     fun getArticle(link: String): ArticleResponse
     fun getMenuArticles(username: String): List<ArticleResponse>
     fun createArticle(articleRequest: ArticleRequest): ArticleResponse
-    fun updateArticle(link: String, articleRequest: ArticleRequest) : ArticleResponse
+    fun updateArticle(id: Long, articleRequest: ArticleRequest) : ArticleResponse
     fun deleteArticle(id: Long)
 }
