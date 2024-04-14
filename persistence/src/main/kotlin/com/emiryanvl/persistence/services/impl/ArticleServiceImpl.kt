@@ -22,8 +22,8 @@ class ArticleServiceImpl(
         )
     }
 
-    override fun getMenuArticles(): List<ArticleResponse> {
-        return articleRepository.findMenuArticles().map { articleMapper.toArticleResponse(it) }
+    override fun getMenuArticles(username: String): List<ArticleResponse> {
+        return articleRepository.findMenuArticles(username).map { articleMapper.toArticleResponse(it) }
     }
 
     override fun createArticle(articleRequest: ArticleRequest): ArticleResponse {
@@ -37,11 +37,11 @@ class ArticleServiceImpl(
         )
     }
 
-    override fun updateArticle(link: String, articleRequest: ArticleRequest): ArticleResponse {
+    override fun updateArticle(id: Long, articleRequest: ArticleRequest): ArticleResponse {
         return articleMapper.toArticleResponse(
             articleRepository.save(
                 editArticle(
-                    articleRepository.findByLink(link).orElseThrow(notFoundException("Пользователь не найден")),
+                    articleRepository.findById(id).orElseThrow(notFoundException("Статья не найдена")),
                     articleRequest
                 )
             )

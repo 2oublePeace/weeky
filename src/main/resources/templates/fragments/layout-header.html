@@ -567,7 +567,8 @@
                 <div class="col-sm-5">
                     <div class="content_control">
                         <button class="doc_border_btn btn_small" data-toggle="modal" data-target="#createSubarticleModal">Создать подстраницу</button>
-                        <a th:href="@{'/editor?currentLink=' + ${currentLink}}" class="doc_border_btn btn_small">Редактировать</a>
+                        <a th:href="@{'/' + ${username} + '/edit?currentLink=' + ${currentLink}}" class="doc_border_btn btn_small">Редактировать страницу</a>
+                        <a th:href="@{'/' + ${username} + '/delete?currentLink=' + ${currentLink}}" class="doc_border_btn btn_small">Удалить страницу</a>
                     </div>
                 </div>
                 <div class="col-sm-2">

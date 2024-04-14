@@ -1,6 +1,6 @@
 title,link,parent_link,content,parent_article_id
-Главная страница,/article/home,/article,**Введите контент**,
-Первая страница,/article/home/football,/article/home,**Введите контент**,1
-Вторая страница,/article/home/volleyball,/article/home,**Введите контент**,1
-Третья страница,/article/home/basketball,/article/home,**Введите контент**,1
-Подпервая страница,/article/home/football/chelsea,/article/home/football,**Введите контент**,2
+Главная страница,/user/home,/user,**Это главная страница**,
+Первая страница,/user/home/football,/user/home,**Это первая страница**,1
+Вторая страница,/user/home/volleyball,/user/home,**Это первая страница**,1
+Третья страница,/user/home/basketball,/user/home,**Это первая страница**,1
+Подпервая страница,/user/home/football/chelsea,/user/home/football,**Это подпервая страница**,2
