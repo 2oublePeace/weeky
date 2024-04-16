@@ -1,8 +1,6 @@
 package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
-import jakarta.servlet.http.HttpServletRequest
-import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model

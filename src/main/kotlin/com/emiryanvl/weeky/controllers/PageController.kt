@@ -20,9 +20,6 @@ class PageController(private val restClient: RestClient) {
     @GetMapping("/editor/{*link}")
     fun getEditor(@PathVariable username: String, @PathVariable link: String): String = "editor"
 
-    @GetMapping("/library")
-    fun getLibrary(@PathVariable username: String): String = "library"
-
     @ModelAttribute("servletPath")
     fun getRequestServletPath(request: HttpServletRequest): String {
         return request.servletPath
@@ -59,4 +56,7 @@ class PageController(private val restClient: RestClient) {
             .retrieve()
             .body<ArticleDto>()!!
     }
+
+    @ModelAttribute("username")
+    fun getUsername(@PathVariable username: String): String = username
 }

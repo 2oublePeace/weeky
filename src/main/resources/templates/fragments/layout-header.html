@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg menu_one display_none">
         <div class="container custom_container">
@@ -565,7 +565,7 @@
                     </nav>
                 </div>
                 <div class="col-sm-5">
-                    <div class="content_control">
+                    <div class="content_control" th:if="${#authentication.name} eq ${username}">
                         <button class="doc_border_btn btn_small" data-toggle="modal" data-target="#createSubarticleModal">Создать подстраницу</button>
                         <a th:href="@{'/article/edit' + ${servletPath}}" class="doc_border_btn btn_small">Редактировать страницу</a>
                         <a th:href="@{'/article/delete' + ${servletPath}}" class="doc_border_btn btn_small">Удалить страницу</a>
