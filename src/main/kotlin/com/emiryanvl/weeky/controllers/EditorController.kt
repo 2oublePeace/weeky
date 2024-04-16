@@ -26,9 +26,10 @@ class EditorController(private val restClient: RestClient) {
             .retrieve()
             .body<ArticleDto>()
 
+        currentArticle?.content = content
+        currentArticle?.title = title
+
         currentArticle?.let {
-            currentArticle.content = content
-            currentArticle.title = title
             restClient.put()
                 .uri("http://localhost:8081/article/${it.id}")
                 .contentType(MediaType.APPLICATION_JSON)
