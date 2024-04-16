@@ -1,11 +1,15 @@
 package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
+
 
 @Controller
 @RequestMapping("/article")
@@ -26,6 +30,16 @@ class ArticleController(private val restClient: RestClient) {
             .toBodilessEntity()
 
         return "redirect:$link"
+    }
+
+    @GetMapping("/edit/{*link}")
+    fun editArticle(@PathVariable link: String, model: Model): String {
+        val pathSegments = link.split("/")
+        val username = pathSegments[1]
+        val startIndex = pathSegments.indexOfFirst { it.startsWith("home") }
+        val sublist = pathSegments.subList(startIndex, pathSegments.size)
+        val extractedPath = sublist.joinToString("/", prefix = "/")
+        return "redirect:/$username/editor$extractedPath"
     }
 
     @GetMapping("/delete/{*link}")
