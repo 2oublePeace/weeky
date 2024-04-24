@@ -34,7 +34,10 @@
                             <div sec:authorize="isAuthenticated()">
                                 <ul class="list-unstyled nav-sidebar coding_nav">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Аккаунт</a>
+                                        <a th:href="@{'/' + ${#authentication.name} + '/home'}" class="nav-link"><img src="/img/side-nav/account.png" alt="">Моя библиотека</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link"><img src="/img/side-nav/briefcase.png" alt="">Аккаунт</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="/logout" class="nav-link"><img src="/img/side-nav/users.png" alt="">Выйти<i class="arrow_right"></i></a>
