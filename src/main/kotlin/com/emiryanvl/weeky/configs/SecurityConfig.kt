@@ -26,8 +26,7 @@ class SecurityConfig {
                 .disable()
             }
             .authorizeHttpRequests { it
-                .requestMatchers("/signup", "/assets/**", "/css/**", "/img/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             }
             .formLogin { it
                 .loginPage("/signin")

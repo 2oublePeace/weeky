@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <th:block th:replace="~{fragments/layout-head :: head}"/>
@@ -31,31 +31,31 @@
                                 </li>
                                 <th:block th:replace="~{fragments/menu-item :: menu-item}"/>
                             </ul>
-                            <ul class="list-unstyled nav-sidebar coding_nav">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Аккаунт</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/book.png" alt="">Библиотека</a>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled nav-sidebar bottom_nav">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/united-states.png" alt="">Unlted States</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/edit.png" alt="">English </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link"><img src="/img/side-nav/users.png" alt="">Sign In <i class="arrow_right"></i></a>
-                                </li>
-                            </ul>
+                            <div sec:authorize="isAuthenticated()">
+                                <ul class="list-unstyled nav-sidebar coding_nav">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link"><img src="/img/side-nav/account.png" alt="">Аккаунт</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/logout" class="nav-link"><img src="/img/side-nav/users.png" alt="">Выйти<i class="arrow_right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div sec:authorize="isAnonymous()">
+                                <ul class="list-unstyled nav-sidebar coding_nav">
+                                    <li class="nav-item">
+                                        <a href="/signin" class="nav-link"><img src="/img/side-nav/users.png" alt="">Войти<i class="arrow_right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </aside>
                 </div>
                 <div class="col-lg-7 col-md-8">
                     <div id="post" class="documentation_info">
-                        <div layout:fragment="content"></div>
+                        <article class="documentation_body" id="documentation">
+                            <div layout:fragment="content"></div>
+                        </article>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 doc_right_mobile_menu">
