@@ -46,7 +46,7 @@ class PageController(private val restClient: RestClient) {
     }
 
     @ModelAttribute("homeArticle")
-    fun getHomeArticle(@PathVariable username: String, request: HttpServletRequest): ArticleDto {
+    fun getHomeArticle(@PathVariable username: String): ArticleDto {
         return restClient.get()
             .uri("http://localhost:8081/article/$username/home")
             .accept(MediaType.APPLICATION_JSON)
@@ -56,21 +56,48 @@ class PageController(private val restClient: RestClient) {
 
     @ModelAttribute("currentArticle")
     fun getCurrentArticle(@PathVariable username: String, request: HttpServletRequest): ArticleDto? {
-        val pathSegments = request.servletPath.split("/")
-        val startIndex = pathSegments.indexOfFirst { it.startsWith("home") }
-        if(startIndex > -1) {
-            val sublist = pathSegments.subList(startIndex, pathSegments.size)
-            val link = sublist.joinToString("/", prefix = "/")
-
-            return restClient.get()
-                .uri("http://localhost:8081/article/$username$link")
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .body<ArticleDto>()!!
-        }
-        return null
+        val link = getPathFragmentsFromHome(request.servletPath)
+        return restClient.get()
+            .uri("http://localhost:8081/article/$username$link")
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
     }
 
     @ModelAttribute("username")
     fun getUsername(@PathVariable username: String): String = username
+
+    @ModelAttribute("breadcrumbs")
+    fun getBreadcrumbs(@PathVariable username: String, request: HttpServletRequest): MutableList<ArticleDto>? {
+        val articles = mutableListOf<ArticleDto>()
+        var currentPath = ""
+        val separator = "/"
+        val pathFromHome = getPathFragmentsFromHome(request.servletPath)
+        val pathFragments = pathFromHome?.apply { this.split(separator).filter { it.isNotEmpty() } }
+        pathFragments?.let {
+            for (fragment in pathFragments) {
+                currentPath += separator + fragment
+                val article = restClient.get()
+                    .uri("http://localhost:8081/article/$username$currentPath")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .body<ArticleDto>()
+                article?.let { articles.add(it) }
+            }
+        }
+        return articles
+    }
+
+    private fun getPathFragmentsFromHome(path: String): String? {
+        val separator = "/"
+        val homeFragmentName = "home"
+        val pathSegments = path.split(separator)
+        val startIndex = pathSegments.indexOfFirst { it.startsWith(homeFragmentName) }
+        return if(startIndex > -1) {
+            val sublist = pathSegments.subList(startIndex, pathSegments.size)
+            sublist.joinToString(separator, prefix = separator)
+        } else {
+            return null
+        }
+    }
 }
