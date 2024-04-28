@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<th:block th:fragment="breadcrumb">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li th:each="breadcrumb : ${breadcrumbs}" class="breadcrumb-item">
+                <a th:href="@{${breadcrumb.link}}" th:text="${breadcrumb.title}">Home</a>
+            </li>
+        </ol>
+    </nav>
+</th:block>
 </html>

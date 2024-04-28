@@ -30,7 +30,7 @@ class SecurityConfig {
             }
             .formLogin { it
                 .loginPage("/signin")
-                .defaultSuccessUrl("/article/home").permitAll()
+                .defaultSuccessUrl("/user/home").permitAll()
             }
             .logout { it
                 .logoutUrl("/logout")

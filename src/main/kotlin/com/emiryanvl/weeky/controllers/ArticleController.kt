@@ -1,8 +1,6 @@
 package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
-import com.emiryanvl.weeky.dto.ArticleResponse
-import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -10,39 +8,54 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
-
 @Controller
-@RequestMapping("/article")
-class ArticleController(private val restClient: RestClient) {
-    @PostMapping("/create")
+class ArticleController(private val restClient: RestClient) : LayoutController(restClient) {
+    @GetMapping("/{username}/home/{*link}")
+    fun getArticle(@PathVariable username: String, @PathVariable link: String, model: Model): String {
+        val article = restClient.get()
+            .uri("http://localhost:8081/article/$username/home$link")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
+
+        model.addAttribute("currentArticle", article)
+
+        return "article"
+    }
+
+    @PostMapping("/article/create")
     fun createArticle(
         @RequestParam title: String,
         @RequestParam childLink: String,
         @RequestParam parentLink: String
     ): String {
-        val link = "$parentLink/$childLink"
+        val articleLink = "$parentLink/$childLink"
+        val articleDto = ArticleDto(title, articleLink, parentLink)
 
         restClient.post()
             .uri("http://localhost:8081/article")
             .contentType(APPLICATION_JSON)
-            .body(ArticleDto(title, link, parentLink))
+            .body(articleDto)
             .retrieve()
             .toBodilessEntity()
 
-        return "redirect:$link"
+        return "redirect:$articleLink"
     }
 
-    @GetMapping("/edit/{*link}")
-    fun editArticle(@PathVariable link: String, model: Model): String {
-        val pathSegments = link.split("/")
-        val username = pathSegments[1]
-        val startIndex = pathSegments.indexOfFirst { it.startsWith("home") }
-        val sublist = pathSegments.subList(startIndex, pathSegments.size)
-        val extractedPath = sublist.joinToString("/", prefix = "/")
-        return "redirect:/$username/editor$extractedPath"
+    @GetMapping("/{username}/edit/{*link}")
+    fun editArticle(@PathVariable username: String, @PathVariable link: String, model: Model): String {
+        val article = restClient.get()
+            .uri("http://localhost:8081/article/$username$link")
+            .accept(APPLICATION_JSON)
+            .retrieve()
+            .body<ArticleDto>()
+
+        model.addAttribute("currentArticle", article)
+
+        return "editor"
     }
 
-    @GetMapping("/delete/{*link}")
+    @GetMapping("/article/delete/{*link}")
     fun deleteArticle(@PathVariable link: String): String {
         val currentArticle = restClient.get()
             .uri("http://localhost:8081/article$link")
@@ -56,5 +69,18 @@ class ArticleController(private val restClient: RestClient) {
             .toBodilessEntity()
 
         return "redirect:${currentArticle?.parentLink}"
+    }
+
+    @GetMapping("/{username}/search")
+    fun searchArticle(@RequestParam searchText: String, model: Model, @PathVariable username: String): String {
+        val searchArticles = restClient.get()
+                .uri("http://localhost:8081/article/search?searchText=$searchText")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .body<List<ArticleDto>>() ?: emptyList()
+
+        model.addAttribute("searchArticles", searchArticles)
+
+        return "search"
     }
 }

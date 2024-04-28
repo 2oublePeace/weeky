@@ -2,11 +2,10 @@ package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
 import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
@@ -17,12 +16,11 @@ class EditorController(private val restClient: RestClient) {
     fun saveArticle(
         @RequestParam link: String,
         @RequestParam content: String,
-        @RequestParam title: String,
-        model: Model
+        @RequestParam title: String
     ): String {
         val currentArticle = restClient.get()
             .uri("http://localhost:8081/article$link")
-            .accept(MediaType.APPLICATION_JSON)
+            .accept(APPLICATION_JSON)
             .retrieve()
             .body<ArticleDto>()
 
