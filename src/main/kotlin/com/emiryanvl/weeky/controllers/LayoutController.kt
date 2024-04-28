@@ -47,6 +47,28 @@ class LayoutController(private val restClient: RestClient) {
         return user?.username
     }
 
+    @ModelAttribute("breadcrumbs")
+    fun getBreadcrumbs(request: HttpServletRequest): List<ArticleDto> {
+        val breadcrumbs = mutableListOf<ArticleDto>()
+        val user = getUserFromRequest(request)
+        val pathSegments = request.servletPath
+                .substring(request.servletPath.indexOf(HOME_LINK))
+                .split(SPLITTER)
+                .filter { it.isNotEmpty() }
+        var link = ""
+        for (segment in pathSegments) {
+            link += "/$segment"
+            breadcrumbs.add(
+                restClient.get()
+                    .uri("http://localhost:8081/article/${user?.username}$link")
+                    .accept(APPLICATION_JSON)
+                    .retrieve()
+                    .body<ArticleDto>()!!
+            )
+        }
+        return breadcrumbs
+    }
+
     private fun getUserFromRequest(request: HttpServletRequest): UserDto? {
         val pathSegments = request.servletPath.split(SPLITTER)
         val username = pathSegments[USERNAME_INDEX]
