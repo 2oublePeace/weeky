@@ -2,6 +2,8 @@ package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
 import org.springframework.http.MediaType.APPLICATION_JSON
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
@@ -23,7 +25,7 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         return "article"
     }
 
-    @PostMapping("/article/create")
+    @PostMapping("/create")
     fun createArticle(
         @RequestParam title: String,
         @RequestParam childLink: String,
@@ -43,19 +45,26 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
     }
 
     @GetMapping("/{username}/edit/{*link}")
-    fun editArticle(@PathVariable username: String, @PathVariable link: String, model: Model): String {
-        val article = restClient.get()
-            .uri("http://localhost:8081/article/$username$link")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
+    fun editArticle(
+        @PathVariable username: String,
+        @PathVariable link: String,
+        @AuthenticationPrincipal userDetails: UserDetails,
+        model: Model
+    ): String {
+        return if(userDetails.username.equals(username)) {
+            val article = restClient.get()
+                .uri("http://localhost:8081/article/$username$link")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .body<ArticleDto>()
 
-        model.addAttribute("currentArticle", article)
+            model.addAttribute("currentArticle", article)
 
-        return "editor"
+            "editor"
+        } else "error"
     }
 
-    @GetMapping("/article/delete/{*link}")
+    @GetMapping("/delete/{*link}")
     fun deleteArticle(@PathVariable link: String): String {
         val currentArticle = restClient.get()
             .uri("http://localhost:8081/article$link")
