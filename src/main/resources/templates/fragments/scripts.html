@@ -38,9 +38,15 @@
 
 <script th:fragment="save-article">
     function saveArticle() {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const articleLink = urlParams.get('currentLink');
+        const editSegment = "edit";
+        const splitter = "/";
+        const userEditOffset = 1;
+        const url = window.location.href;
+        const pathSegments = url.split(splitter);
+        const articleLink = splitter + pathSegments
+            .slice(pathSegments.indexOf(editSegment) - userEditOffset)
+            .filter(segment => segment !== editSegment)
+            .join(splitter);
         const editedContent = editor.getMarkdown()
         const articleTitle = $('input[name="title"]').val();
         $.post("/editor/save", { link: articleLink, content: editedContent, title: articleTitle })
