@@ -1,6 +1,7 @@
 package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.ArticleDto
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,10 +13,13 @@ import org.springframework.web.client.body
 
 @Controller
 class ArticleController(private val restClient: RestClient) : LayoutController(restClient) {
+    @Value("\${api.article}")
+    private lateinit var articleApi: String
+
     @GetMapping("/{username}/home/{*link}")
     fun getArticle(@PathVariable username: String, @PathVariable link: String, model: Model): String {
         val article = restClient.get()
-            .uri("http://localhost:8081/article/$username/home$link")
+            .uri("$articleApi/$username/${HOME_SEGMENT + link}")
             .accept(APPLICATION_JSON)
             .retrieve()
             .body<ArticleDto>()
@@ -38,7 +42,7 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
             val articleDto = ArticleDto(title, articleLink, parentLink)
 
             restClient.post()
-                .uri("http://localhost:8081/article")
+                .uri(articleApi)
                 .contentType(APPLICATION_JSON)
                 .body(articleDto)
                 .retrieve()
@@ -57,7 +61,7 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
     ): String {
         return if(userDetails.username.equals(username)) {
             val article = restClient.get()
-                .uri("http://localhost:8081/article/$username$link")
+                .uri("$articleApi/${username + link}")
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body<ArticleDto>()
@@ -76,13 +80,13 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
     ): String {
         return if(userDetails.username.equals(username)) {
             val currentArticle = restClient.get()
-                .uri("http://localhost:8081/article$link")
+                .uri(articleApi + link)
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body<ArticleDto>()
 
             restClient.delete()
-                .uri("http://localhost:8081/article/${currentArticle?.id}")
+                .uri("$articleApi/${currentArticle?.id}")
                 .retrieve()
                 .toBodilessEntity()
 
@@ -101,5 +105,9 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         model.addAttribute("searchArticles", searchArticles)
 
         return "search"
+    }
+
+    companion object {
+        const val HOME_SEGMENT = "home"
     }
 }
