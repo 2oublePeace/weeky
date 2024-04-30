@@ -25,23 +25,27 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         return "article"
     }
 
-    @PostMapping("/create")
+    @PostMapping("/{username}/create")
     fun createArticle(
         @RequestParam title: String,
         @RequestParam childLink: String,
-        @RequestParam parentLink: String
+        @RequestParam parentLink: String,
+        @PathVariable username: String,
+        @AuthenticationPrincipal userDetails: UserDetails
     ): String {
-        val articleLink = "$parentLink/$childLink"
-        val articleDto = ArticleDto(title, articleLink, parentLink)
+        return if(userDetails.username.equals(username)) {
+            val articleLink = "$parentLink/$childLink"
+            val articleDto = ArticleDto(title, articleLink, parentLink)
 
-        restClient.post()
-            .uri("http://localhost:8081/article")
-            .contentType(APPLICATION_JSON)
-            .body(articleDto)
-            .retrieve()
-            .toBodilessEntity()
+            restClient.post()
+                .uri("http://localhost:8081/article")
+                .contentType(APPLICATION_JSON)
+                .body(articleDto)
+                .retrieve()
+                .toBodilessEntity()
 
-        return "redirect:$articleLink"
+            "redirect:$articleLink"
+        } else "error"
     }
 
     @GetMapping("/{username}/edit/{*link}")
@@ -64,20 +68,26 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         } else "error"
     }
 
-    @GetMapping("/delete/{*link}")
-    fun deleteArticle(@PathVariable link: String): String {
-        val currentArticle = restClient.get()
-            .uri("http://localhost:8081/article$link")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
+    @GetMapping("/{username}/delete/{*link}")
+    fun deleteArticle(
+        @PathVariable link: String,
+        @AuthenticationPrincipal userDetails: UserDetails,
+        @PathVariable username: String,
+    ): String {
+        return if(userDetails.username.equals(username)) {
+            val currentArticle = restClient.get()
+                .uri("http://localhost:8081/article$link")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .body<ArticleDto>()
 
-        restClient.delete()
-            .uri("http://localhost:8081/article/${currentArticle?.id}")
-            .retrieve()
-            .toBodilessEntity()
+            restClient.delete()
+                .uri("http://localhost:8081/article/${currentArticle?.id}")
+                .retrieve()
+                .toBodilessEntity()
 
-        return "redirect:${currentArticle?.parentLink}"
+            "redirect:${currentArticle?.parentLink}"
+        } else "error"
     }
 
     @GetMapping("/{username}/search")

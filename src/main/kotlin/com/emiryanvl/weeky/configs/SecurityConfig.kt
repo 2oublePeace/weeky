@@ -26,7 +26,7 @@ class SecurityConfig {
                 .disable()
             }
             .authorizeHttpRequests { it
-                .requestMatchers("/create","/{username}/edit/**","/delete").authenticated()
+                .requestMatchers("/create","/{username}/edit/**","/delete/**").authenticated()
                 .anyRequest().permitAll()
             }
             .formLogin { it
