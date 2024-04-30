@@ -8,6 +8,17 @@
     <title>KbDoc</title>
 </head>
 
+<th:block layout:fragment="content-control">
+    <div class="content_control" th:if="${#authentication.name} eq ${username}">
+        <button class="doc_border_btn btn_small" data-toggle="modal" data-target="#createSubarticleModal">Создать подстраницу</button>
+        <a th:href="@{'/' + ${username} + '/edit' + ${#strings.substringAfter(currentArticle.link, username)}}"
+           class="doc_border_btn btn_small">
+            Редактировать страницу
+        </a>
+        <a th:href="@{'/' + ${username} + '/delete' + ${servletPath}}" class="doc_border_btn btn_small">Удалить страницу</a>
+    </div>
+</th:block>
+
 <th:block layout:fragment="content">
     <div id="viewer" style="height: 1200px;"></div>
 </th:block>

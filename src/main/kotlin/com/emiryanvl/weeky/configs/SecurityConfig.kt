@@ -26,12 +26,12 @@ class SecurityConfig {
                 .disable()
             }
             .authorizeHttpRequests { it
-                .requestMatchers("/signup", "/assets/**", "/css/**", "/img/**", "/js/**").permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/create","/{username}/edit/**","/delete/**").authenticated()
+                .anyRequest().permitAll()
             }
             .formLogin { it
                 .loginPage("/signin")
-                .defaultSuccessUrl("/article/home").permitAll()
+                .defaultSuccessUrl("/user/home").permitAll()
             }
             .logout { it
                 .logoutUrl("/logout")

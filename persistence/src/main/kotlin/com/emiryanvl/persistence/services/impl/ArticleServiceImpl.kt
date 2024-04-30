@@ -52,6 +52,10 @@ class ArticleServiceImpl(
         articleRepository.deleteById(id)
     }
 
+    override fun searchArticles(searchText: String): List<ArticleResponse> {
+        return articleRepository.findArticlesBySearchText(searchText).map { articleMapper.toArticleResponse(it) }
+    }
+
     private fun complementArticle(articleEntity: ArticleEntity, articleRequest: ArticleRequest): ArticleEntity {
         return articleEntity.apply {
             this.parentArticle = articleRepository.findByLink(articleRequest.parentLink).orElseThrow(

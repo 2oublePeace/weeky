@@ -34,4 +34,9 @@ class ArticleController(private val articleService: ArticleService) {
     fun deleteArticle(@PathVariable id: Long) : ResponseEntity<Unit> {
         return ResponseEntity<Unit>(articleService.deleteArticle(id), HttpStatus.NO_CONTENT)
     }
+
+    @GetMapping("/search")
+    fun searchArticles(@RequestParam searchText: String) : List<ArticleResponse> {
+        return articleService.searchArticles(searchText)
+    }
 }
