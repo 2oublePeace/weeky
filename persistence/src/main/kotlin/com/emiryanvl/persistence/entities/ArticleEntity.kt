@@ -1,6 +1,7 @@
 package com.emiryanvl.persistence.entities
 
 import jakarta.persistence.*
+import java.sql.Date
 
 @Entity
 @Table(name = "_article")
@@ -10,6 +11,7 @@ class ArticleEntity (
     @Column(name = "parent_link")
     var parentLink: String,
     var content: String,
+    var date: Date,
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "parentArticle")
     var childArticles: List<ArticleEntity> = emptyList(),
     @ManyToOne

@@ -69,6 +69,7 @@ class ArticleServiceImpl(
             articleEntity.title = articleRequest.title
             articleEntity.content = articleRequest.content
             articleEntity.link = articleRequest.link
+            articleEntity.date = articleRequest.date
             articleEntity.parentLink = articleRequest.parentLink
         }
     }

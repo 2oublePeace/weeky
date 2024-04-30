@@ -12,7 +12,8 @@ class ArticleMapper {
             articleRequest.title,
             articleRequest.link,
             articleRequest.parentLink,
-            articleRequest.content
+            articleRequest.content,
+            articleRequest.date
         )
     }
 
@@ -24,6 +25,7 @@ class ArticleMapper {
                 articleEntity.link,
                 articleEntity.parentLink,
                 articleEntity.content,
+                articleEntity.date,
                 articleEntity.childArticles.map { toArticleResponse(it) }
             )
         }
@@ -32,7 +34,8 @@ class ArticleMapper {
             articleEntity.title,
             articleEntity.link,
             articleEntity.parentLink,
-            articleEntity.content
+            articleEntity.content,
+            articleEntity.date
         )
     }
 }
