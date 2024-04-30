@@ -3,9 +3,16 @@
 <th:block th:fragment="breadcrumb">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li th:each="breadcrumb : ${breadcrumbs}" class="breadcrumb-item">
-                <a th:href="@{${breadcrumb.link}}" th:text="${breadcrumb.title}">Home</a>
-            </li>
+            <th:block th:each="breadcrumb : ${breadcrumbs}">
+                <th:block th:if="${breadcrumb eq breadcrumbs[#lists.size(breadcrumbs) - 1]}">
+                    <li class="breadcrumb-item active" th:text="${breadcrumb.title}"></li>
+                </th:block>
+                <th:block th:unless="${breadcrumb eq breadcrumbs[#lists.size(breadcrumbs) - 1]}">
+                    <li class="breadcrumb-item" th:text="${breadcrumb.title}">
+                        <a th:href="@{${breadcrumb.link}}" th:text="${breadcrumb.title}"></a>
+                    </li>
+                </th:block>
+            </th:block>
         </ol>
     </nav>
 </th:block>
