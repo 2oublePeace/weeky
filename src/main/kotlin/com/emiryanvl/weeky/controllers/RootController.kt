@@ -1,6 +1,5 @@
 package com.emiryanvl.weeky.controllers
 
-import org.springframework.security.config.annotation.web.AnonymousDsl
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
