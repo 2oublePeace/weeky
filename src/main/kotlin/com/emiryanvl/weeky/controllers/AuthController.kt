@@ -27,7 +27,7 @@ class AuthController(private val restClient: RestClient, private val passwordEnc
         restClient.post()
             .uri(userApi)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(UserDto(username, passwordEncoder.encode(password)))
+            .body(UserDto(username = username, password = passwordEncoder.encode(password)))
             .retrieve()
             .toBodilessEntity()
 
