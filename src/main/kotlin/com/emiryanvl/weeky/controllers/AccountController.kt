@@ -43,9 +43,8 @@ class AccountController(private val restClient: RestClient, private val password
                     .body(UserRequest(it.username, passwordEncoder.encode(newPassword)))
                     .retrieve()
                     .toBodilessEntity()
-            }
-
-            "redirect:/logout"
+                "redirect:/logout"
+            } else "error"
         } ?: "error"
     }
 }
