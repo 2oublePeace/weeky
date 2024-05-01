@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item active" th:text="${breadcrumb.title}"></li>
                 </th:block>
                 <th:block th:unless="${breadcrumb eq breadcrumbs[#lists.size(breadcrumbs) - 1]}">
-                    <li class="breadcrumb-item" th:text="${breadcrumb.title}">
+                    <li class="breadcrumb-item">
                         <a th:href="@{${breadcrumb.link}}" th:text="${breadcrumb.title}"></a>
                     </li>
                 </th:block>
