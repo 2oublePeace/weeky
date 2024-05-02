@@ -1,0 +1,12 @@
+api:
+  article: http://persistence:8081/article
+  user: http://persistence:8081/user
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false

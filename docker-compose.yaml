@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  persistence:
+    build:
+      context: .
+      dockerfile: ./persistence/Dockerfile
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=${DB_URL_HOSTING_ENV}
+      - DB_USERNAME=${DB_USERNAME_HOSTING_ENV}
+      - DB_PASSWORD=${DB_PASSWORD_HOSTING_ENV}
+  webapp:
+    build:
+      context: .
+      dockerfile: ./webapp/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=${DB_URL_HOSTING_ENV}
+      - DB_USERNAME=${DB_USERNAME_HOSTING_ENV}
+      - DB_PASSWORD=${DB_PASSWORD_HOSTING_ENV}
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB_HOSTING_ENV}
+      - POSTGRES_USER=${POSTGRES_USER_HOSTING_ENV}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_HOSTING_ENV}
+    expose:
+      - 5432
