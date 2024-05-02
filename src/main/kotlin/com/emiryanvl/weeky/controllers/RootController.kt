@@ -1,14 +1,18 @@
 package com.emiryanvl.weeky.controllers
 
+import com.emiryanvl.weeky.dto.ArticleDto
+import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.body
 
 
 @Controller
 @RequestMapping("/")
-class RootController {
+class RootController(private val restClient: RestClient) {
     @GetMapping
     fun getRoot(): String {
         val authentication = SecurityContextHolder.getContext().authentication

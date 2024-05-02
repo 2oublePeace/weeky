@@ -282,12 +282,13 @@
         <img class="p_absolute one wow fadeInRight" src="/img/home_one/b_man_two.png" alt="">
         <img class="p_absolute two wow fadeInUp" data-wow-delay="0.2s" src="/img/home_one/flower.png" alt="">
         <div class="container custom_container">
-            <form th:action="@{'/' + ${username} + '/search'}" th:method="get" class="banner_search_form banner_search_form_two">
+            <div class="banner_search_form banner_search_form_two">
                 <div class="input-group">
                     <input th:name="searchText" type="search" class="form-control" placeholder='Search ("/" to focus)'>
-                    <button type="submit"><i class="icon_search"></i></button>
+                    <button onclick="searchArticle()" type="submit"><i class="icon_search"></i></button>
+                    <script th:replace="~{fragments/scripts :: search-article}"></script>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
     <section class="page_breadcrumb">

@@ -94,19 +94,6 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         } else "error"
     }
 
-    @GetMapping("/{username}/search")
-    fun searchArticle(@RequestParam searchText: String, model: Model, @PathVariable username: String): String {
-        val searchArticles = restClient.get()
-                .uri("http://localhost:8081/article/search?searchText=$searchText")
-                .accept(APPLICATION_JSON)
-                .retrieve()
-                .body<List<ArticleDto>>() ?: emptyList()
-
-        model.addAttribute("searchArticles", searchArticles)
-
-        return "search"
-    }
-
     companion object {
         const val HOME_SEGMENT = "home"
     }

@@ -11,24 +11,6 @@
                     <div class="text-left">
                         <h2 class="h_title wow fadeInUp">Аккаунт</h2>
                     </div>
-                    <!--<div class="contact_info">
-                        <form action="#" class="contact_form">
-                            <div class="row contact_fill">
-                                <div class="col-lg-6 form-group">
-                                    <h6>Сменить имя пользователя</h6>
-                                    <input type="text"
-                                           class="form-control"
-                                           name="username"
-                                           id="username"
-                                           placeholder="Введите новое имя пользователя">
-                                </div>
-
-                                <div class="col-lg-12 form-group">
-                                    <button type="submit" class="btn action_btn thm_btn">Обновить имя пользователя</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>-->
                     <div class="contact_info">
                         <form th:action="@{${'/' + #authentication.name + '/account/change-password'}}" class="contact_form">
                             <div class="row contact_fill">
