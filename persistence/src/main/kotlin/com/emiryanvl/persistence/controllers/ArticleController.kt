@@ -36,7 +36,7 @@ class ArticleController(private val articleService: ArticleService) {
     }
 
     @GetMapping("/search")
-    fun searchArticles(@RequestParam searchText: String) : List<ArticleResponse> {
-        return articleService.searchArticles(searchText)
+    fun searchArticles(@RequestParam searchText: String, @RequestParam username: String) : List<ArticleResponse> {
+        return articleService.searchArticles(searchText, username)
     }
 }

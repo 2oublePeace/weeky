@@ -1,6 +1,6 @@
-title,link,parent_link,content,parent_article_id
-Главная страница,/user/home,/user,**Это главная страница**,
-Первая страница,/user/home/football,/user/home,**Это первая страница**,1
-Вторая страница,/user/home/volleyball,/user/home,**Это первая страница**,1
-Третья страница,/user/home/basketball,/user/home,**Это первая страница**,1
-Подпервая страница,/user/home/football/chelsea,/user/home/football,**Это подпервая страница**,2
+title,link,parent_link,content,date,parent_article_id
+Главная страница,/user/home,/user,**Это главная страница**,'2023-04-20',
+Первая страница,/user/home/football,/user/home,**Это первая страница**,'2023-04-20',1
+Вторая страница,/user/home/volleyball,/user/home,**Это первая страница**,'2023-04-20',1
+Третья страница,/user/home/basketball,/user/home,**Это первая страница**,'2023-04-20',1
+Подпервая страница,/user/home/football/chelsea,/user/home/football,**Это подпервая страница**,'2023-04-20',2

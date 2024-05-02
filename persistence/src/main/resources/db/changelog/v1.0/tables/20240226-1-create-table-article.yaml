@@ -33,6 +33,11 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
                   name: parent_article_id
                   type: int(10)
                   constraints:

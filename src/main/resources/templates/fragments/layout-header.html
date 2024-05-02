@@ -2,7 +2,7 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <header th:fragment="header">
     <nav class="navbar navbar-expand-lg menu_one display_none">
-        <div class="container custom_container">
+        <div class="container custom_container" style="padding-bottom: 37px;padding-top: 37px;">
             <a class="navbar-brand sticky_logo" href="index.html">
                 <img src="/img/logo-w.png" srcset="/img/logo-w2x.png 2x" alt="logo">
                 <img src="/img/logo.png" srcset="/img/logo-2x.png 2x" alt="logo">
@@ -282,12 +282,13 @@
         <img class="p_absolute one wow fadeInRight" src="/img/home_one/b_man_two.png" alt="">
         <img class="p_absolute two wow fadeInUp" data-wow-delay="0.2s" src="/img/home_one/flower.png" alt="">
         <div class="container custom_container">
-            <form th:action="@{'/' + ${username} + '/search'}" th:method="get" class="banner_search_form banner_search_form_two">
+            <div class="banner_search_form banner_search_form_two">
                 <div class="input-group">
-                    <input th:name="searchText" type="search" class="form-control" placeholder='Search ("/" to focus)'>
-                    <button type="submit"><i class="icon_search"></i></button>
+                    <input th:name="searchText" type="search" class="form-control" placeholder='Поиск ("/" для фокусировки)'>
+                    <button onclick="searchArticle()" type="submit"><i class="icon_search"></i></button>
+                    <script th:replace="~{fragments/scripts :: search-article}"></script>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
     <section class="page_breadcrumb">
@@ -300,7 +301,7 @@
                     <th:block layout:fragment="content-control" />
                 </div>
                 <div class="col-sm-2">
-                    <a href="#" class="date"><i class="icon_clock_alt"></i>Updated on March 03, 2020</a>
+                    <a href="#" th:text="'Обновлено ' + ${#dates.format(currentArticle.date, 'dd MMMM, yyyy')}" class="date"><i class="icon_clock_alt"></i>Updated on March 03, 2020</a>
                 </div>
             </div>
         </div>

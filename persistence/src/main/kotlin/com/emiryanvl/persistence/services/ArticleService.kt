@@ -9,5 +9,5 @@ interface ArticleService {
     fun createArticle(articleRequest: ArticleRequest): ArticleResponse
     fun updateArticle(id: Long, articleRequest: ArticleRequest) : ArticleResponse
     fun deleteArticle(id: Long)
-    fun searchArticles(searchText: String): List<ArticleResponse>
+    fun searchArticles(searchText: String, username: String): List<ArticleResponse>
 }

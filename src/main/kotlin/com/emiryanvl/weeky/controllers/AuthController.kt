@@ -1,6 +1,7 @@
 package com.emiryanvl.weeky.controllers
 
 import com.emiryanvl.weeky.dto.UserDto
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -13,6 +14,8 @@ import org.springframework.web.client.RestClient
 @Controller
 @RequestMapping
 class AuthController(private val restClient: RestClient, private val passwordEncoder: PasswordEncoder) {
+    @Value("\${api.user}")
+    private lateinit var userApi: String
     @GetMapping("/signin")
     fun getSignIn(): String = "signin"
 
@@ -22,9 +25,9 @@ class AuthController(private val restClient: RestClient, private val passwordEnc
     @PostMapping("/signup")
     fun registerUser(@RequestParam username: String, @RequestParam password: String): String {
         restClient.post()
-            .uri("http://localhost:8081/user")
+            .uri(userApi)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(UserDto(username, passwordEncoder.encode(password)))
+            .body(UserDto(username = username, password = passwordEncoder.encode(password)))
             .retrieve()
             .toBodilessEntity()
 

@@ -1,31 +1,15 @@
 <!doctype html>
-<html lang="en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/layout}">
+<html lang="en">
+<th:block th:fragment="search">
+    <div class="modal fade img_modal" id="searchModal" tabindex="-2" role="dialog" aria-hidden="false" th:fragment="modal">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class=" icon_close"></i>
+        </button>
+        <div class="modal-dialog help_form" role="document">
+            <div class="modal-content">
 
-<head>
-    <title>KbDoc</title>
-</head>
-
-<th:block layout:fragment="content">
-    <div class="get_info_inner">
-        <div th:each="searchArticle : ${searchArticles}" class="row get_info_item align-items-center justify-content-between">
-            <div class="col-lg-4 col-sm-5">
-                <div class="media align-items-center">
-                    <img src="/img/sheet.png" alt="">
-                    <div class="media-body">
-                        <h5 class="h5 bold" th:text="${searchArticle.title}">Email</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8 col-sm-7 d-flex align-items-center justify-content-between">
-                <div class="time">
-                    Expected response time: <span>72 hours</span>
-                </div>
-                <a th:href="@{${searchArticle.link}}" class="doc_border_btn doc_border_btn_two">Посмотреть</a>
             </div>
         </div>
     </div>
 </th:block>
-
 </html>

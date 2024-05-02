@@ -22,6 +22,10 @@ databaseChangeLog:
                   name: content
                   type: varchar(255)
               - column:
+                  header: date
+                  name: date
+                  type: date
+              - column:
                   header: parent_article_id
                   name: parent_article_id
                   type: int(10)

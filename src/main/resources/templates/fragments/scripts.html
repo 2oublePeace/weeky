@@ -56,4 +56,28 @@
     }
 </script>
 
+<script th:fragment="search-article" th:inline="javascript">
+    function searchArticle() {
+        const username = [[${username}]];
+        const searchText = $('input[name="searchText"]').val();
+        $.post(`/${username}/search`, { searchText: searchText, username: username })
+            .done(function(data) {
+                $('#searchModal .modal-content').append(
+                    "<div class=\"steps-panel\">\n" +
+                    "   <ul class=\"ordered-list\">\n" +
+                    "   </ul>\n" +
+                    "</div>"
+                );
+                data.forEach(function(article) {
+                    $('#searchModal .ordered-list').append('<li><a href="' + article.link + '">' + article.title + '</a></li>');
+                });
+                $('#searchModal').modal('show');
+            });
+
+        $('#searchModal').on('hide.bs.modal', function (e) {
+            $('#searchModal .steps-panel').remove();
+        })
+    }
+</script>
+
 </html>
