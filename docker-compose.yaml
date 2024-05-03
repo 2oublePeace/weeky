@@ -2,7 +2,7 @@ version: '3.8'
 services:
   persistence:
     build:
-      context: .
+      context: ./persistence
       dockerfile: ./persistence/Dockerfile
     depends_on:
       - db
@@ -13,7 +13,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD_HOSTING_ENV}
   webapp:
     build:
-      context: .
+      context: ./webapp
       dockerfile: ./webapp/Dockerfile
     ports:
       - "8080:8080"

@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  persistence:
+    build:
+      context: ./persistence
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=jdbc:postgresql://db:5432/weeky
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+  webapp:
+    build:
+      context: ./webapp
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=weeky
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432

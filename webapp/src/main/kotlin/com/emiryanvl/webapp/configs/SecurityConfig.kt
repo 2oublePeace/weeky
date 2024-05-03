@@ -1,6 +1,7 @@
 package com.emiryanvl.webapp.configs
 
 import com.emiryanvl.webapp.dto.UserDto
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -20,6 +21,9 @@ import org.springframework.web.client.body
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
+    @Value("\${api.user}")
+    private lateinit var userApi: String
+
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.csrf { it
@@ -47,7 +51,7 @@ class SecurityConfig {
     fun userDetailsService(restClient: RestClient): UserDetailsService {
         return UserDetailsService {
             val user = restClient.get()
-                .uri("http://localhost:8081/user/$it")
+                .uri("$userApi/$it")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body<UserDto>() ?:

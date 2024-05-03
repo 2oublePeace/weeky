@@ -3,6 +3,7 @@ package com.emiryanvl.webapp.controllers
 import com.emiryanvl.webapp.dto.ArticleDto
 import com.emiryanvl.webapp.dto.UserDto
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
@@ -11,6 +12,12 @@ import org.springframework.web.client.body
 
 @Controller
 class LayoutController(private val restClient: RestClient) {
+    @Value("\${api.article}")
+    private lateinit var articleApi: String
+
+    @Value("\${api.user}")
+    private lateinit var userApi: String
+
     @ModelAttribute("servletPath")
     fun getRequestServletPath(request: HttpServletRequest): String {
         return request.servletPath
@@ -22,7 +29,7 @@ class LayoutController(private val restClient: RestClient) {
 
         return user?.let {
             restClient.get()
-                .uri("http://localhost:8081/article/menu/${it.username}")
+                .uri("$articleApi/menu/${it.username}")
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body<List<ArticleDto>>()
@@ -34,7 +41,7 @@ class LayoutController(private val restClient: RestClient) {
         val user = getUserFromRequest(request)
         return user?.let {
             restClient.get()
-                .uri("http://localhost:8081/article/${it.username + HOME_LINK}")
+                .uri("$articleApi/${it.username + HOME_LINK}")
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body<ArticleDto>()
@@ -60,7 +67,7 @@ class LayoutController(private val restClient: RestClient) {
                 .map {
                     link += SPLITTER + it
                     restClient.get()
-                        .uri("http://localhost:8081/article/${user.username}$link")
+                        .uri("$articleApi/${user.username}$link")
                         .accept(APPLICATION_JSON)
                         .retrieve()
                         .body<ArticleDto>()
@@ -73,7 +80,7 @@ class LayoutController(private val restClient: RestClient) {
         val username = pathSegments[USERNAME_INDEX]
         return if(pathSegments.contains(HOME_SEGMENT)) {
             restClient.get()
-                .uri("http://localhost:8081/user/$username")
+                .uri("$userApi/$username")
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .body<UserDto>()

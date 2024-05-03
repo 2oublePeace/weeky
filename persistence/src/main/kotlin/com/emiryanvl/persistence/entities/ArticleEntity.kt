@@ -12,7 +12,7 @@ class ArticleEntity (
     var parentLink: String,
     var content: String,
     var date: Date,
-    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "parentArticle")
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], mappedBy = "parentArticle")
     var childArticles: List<ArticleEntity> = emptyList(),
     @ManyToOne
     @JoinColumn(name="parent_article_id")
