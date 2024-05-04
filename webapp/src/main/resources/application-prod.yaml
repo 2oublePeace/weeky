@@ -1,3 +1,3 @@
 api:
-  article: http://persistence:8081/article
-  user: http://persistence:8081/user
+  article: ${PERSISTENCE_API}:8081/article
+  user: ${PERSISTENCE_API}/user

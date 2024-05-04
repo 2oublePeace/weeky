@@ -21,9 +21,10 @@ services:
       - db
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - PERSISTENCE_API=http://persistence:8081
   db:
     image: postgres
-    restart: always
+    restart: on-failure
     environment:
       - POSTGRES_DB=weeky
       - POSTGRES_USER=postgres
