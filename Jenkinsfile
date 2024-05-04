@@ -31,6 +31,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Trigger deploy hook') {
+            steps {
+                script {
+                    sh 'wget -O /dev/null https://api.render.com/deploy/srv-coq7lu5jm4es73agqot0?key=5F1fq_mPFP0'
+                    sh 'wget -O /dev/null https://api.render.com/deploy/srv-coq711cf7o1s73ec4ag0?key=vLB-nrCyYq0'
+                }
+            }
+        }
     }
 
     post {
