@@ -3,7 +3,7 @@ services:
   persistence:
     build:
       context: .
-      dockerfile: ./persistence/Dockerfile
+      dockerfile: /persistence/Dockerfile
     depends_on:
       - db
     environment:
@@ -14,7 +14,7 @@ services:
   webapp:
     build:
       context: .
-      dockerfile: ./webapp/Dockerfile
+      dockerfile: /webapp/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
