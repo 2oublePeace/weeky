@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.22" apply false
     id("org.springframework.boot") version "3.2.3" apply false
     id("io.spring.dependency-management") version "1.1.4" apply false
+    id("org.jetbrains.kotlinx.kover") version "0.7.6" apply false
 }
 
 java {
@@ -25,6 +26,7 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jetbrains.kotlinx.kover")
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web")
