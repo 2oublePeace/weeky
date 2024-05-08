@@ -1,3 +1,4 @@
 api:
   article: http://localhost:8081/article
   user: http://localhost:8081/user
+home-segment: home

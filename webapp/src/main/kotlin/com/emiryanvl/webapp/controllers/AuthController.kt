@@ -16,6 +16,7 @@ import org.springframework.web.client.RestClient
 class AuthController(private val restClient: RestClient, private val passwordEncoder: PasswordEncoder) {
     @Value("\${api.user}")
     private lateinit var userApi: String
+
     @GetMapping("/signin")
     fun getSignIn(): String = "signin"
 

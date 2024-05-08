@@ -18,9 +18,7 @@ class AccountController(private val restClient: RestClient, private val password
     private lateinit var userApi: String
 
     @GetMapping("/{username}/account")
-    fun getAccount(@PathVariable username: String): String {
-        return "account"
-    }
+    fun getAccount(@PathVariable username: String): String = "account"
 
     @GetMapping("/{username}/account/change-password")
     fun changePassword(

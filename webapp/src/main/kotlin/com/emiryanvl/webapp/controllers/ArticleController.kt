@@ -1,31 +1,27 @@
 package com.emiryanvl.webapp.controllers
 
 import com.emiryanvl.webapp.dto.ArticleDto
+import com.emiryanvl.webapp.services.ArticleService
+import com.emiryanvl.webapp.services.UserService
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.RestClient
-import org.springframework.web.client.body
 
 @Controller
-class ArticleController(private val restClient: RestClient) : LayoutController(restClient) {
-    @Value("\${api.article}")
-    private lateinit var articleApi: String
+class ArticleController(
+    private val articleService: ArticleService,
+    private val userService: UserService
+) : LayoutController(articleService, userService) {
+    @Value("\${home-segment}")
+    private lateinit var homeSegment: String
 
     @GetMapping("/{username}/home/{*link}")
     fun getArticle(@PathVariable username: String, @PathVariable link: String, model: Model): String {
-        val article = restClient.get()
-            .uri("$articleApi/$username/${HOME_SEGMENT + link}")
-            .accept(APPLICATION_JSON)
-            .retrieve()
-            .body<ArticleDto>()
-
+        val article = articleService.getArticle("$username/${homeSegment + link}")
         model.addAttribute("currentArticle", article)
-
         return "article"
     }
 
@@ -40,14 +36,7 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         return if(userDetails.username.equals(username)) {
             val articleLink = "$parentLink/$childLink"
             val articleDto = ArticleDto(title, articleLink, parentLink)
-
-            restClient.post()
-                .uri(articleApi)
-                .contentType(APPLICATION_JSON)
-                .body(articleDto)
-                .retrieve()
-                .toBodilessEntity()
-
+            articleService.createArticle(articleDto)
             "redirect:$articleLink"
         } else "error"
     }
@@ -59,15 +48,9 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         @AuthenticationPrincipal userDetails: UserDetails,
         model: Model
     ): String {
-        return if(userDetails.username.equals(username)) {
-            val article = restClient.get()
-                .uri("$articleApi/${username + link}")
-                .accept(APPLICATION_JSON)
-                .retrieve()
-                .body<ArticleDto>()
-
+        return if (userDetails.username.equals(username)) {
+            val article = articleService.getArticle("$username/$link")
             model.addAttribute("currentArticle", article)
-
             "editor"
         } else "error"
     }
@@ -79,22 +62,9 @@ class ArticleController(private val restClient: RestClient) : LayoutController(r
         @PathVariable username: String,
     ): String {
         return if(userDetails.username.equals(username)) {
-            val currentArticle = restClient.get()
-                .uri(articleApi + link)
-                .accept(APPLICATION_JSON)
-                .retrieve()
-                .body<ArticleDto>()
-
-            restClient.delete()
-                .uri("$articleApi/${currentArticle?.id}")
-                .retrieve()
-                .toBodilessEntity()
-
+            val currentArticle = articleService.getArticle("$username/$link")
+            currentArticle?.id?.let { articleService.deleteArticle(it) }
             "redirect:${currentArticle?.parentLink}"
         } else "error"
-    }
-
-    companion object {
-        const val HOME_SEGMENT = "home"
     }
 }
