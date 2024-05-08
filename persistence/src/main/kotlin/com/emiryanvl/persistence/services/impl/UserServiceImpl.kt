@@ -52,15 +52,7 @@ class UserServiceImpl(
 
     private fun complementUser(userEntity: UserEntity): UserEntity {
         return userEntity.apply {
-            articleRepository.save(
-                ArticleEntity(
-                    "Главная страница",
-                    "/${userEntity.username}/home",
-                    "/${userEntity.username}",
-                    "Это главная страница",
-                    Date.valueOf(LocalDate.now()),
-                )
-            )
+            articleRepository.save(initHomeArticle(userEntity))
         }
     }
 
@@ -69,5 +61,15 @@ class UserServiceImpl(
             userEntity.username = userRequest.username
             userEntity.password = userRequest.password
         }
+    }
+
+    private fun initHomeArticle(userEntity: UserEntity): ArticleEntity {
+        return ArticleEntity(
+            "Главная страница",
+            "/${userEntity.username}/home",
+            "/${userEntity.username}",
+            "Это главная страница",
+            Date.valueOf(LocalDate.now()),
+        )
     }
 }
