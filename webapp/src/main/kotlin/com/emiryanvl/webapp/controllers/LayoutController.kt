@@ -2,6 +2,8 @@ package com.emiryanvl.webapp.controllers
 
 import com.emiryanvl.webapp.dto.ArticleDto
 import com.emiryanvl.webapp.dto.UserDto
+import com.emiryanvl.webapp.services.ArticleService
+import com.emiryanvl.webapp.services.UserService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType.APPLICATION_JSON
@@ -11,12 +13,12 @@ import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 
 @Controller
-class LayoutController(private val restClient: RestClient) {
-    @Value("\${api.article}")
-    private lateinit var articleApi: String
-
-    @Value("\${api.user}")
-    private lateinit var userApi: String
+class LayoutController(
+    private val articleService: ArticleService,
+    private val userService: UserService
+) {
+    @Value("\${home-segment}")
+    private lateinit var homeSegment: String
 
     @ModelAttribute("servletPath")
     fun getRequestServletPath(request: HttpServletRequest): String {
@@ -27,24 +29,14 @@ class LayoutController(private val restClient: RestClient) {
     fun getMenuArticles(request: HttpServletRequest): List<ArticleDto> {
         val user = getUserFromRequest(request)
 
-        return user?.let {
-            restClient.get()
-                .uri("$articleApi/menu/${it.username}")
-                .accept(APPLICATION_JSON)
-                .retrieve()
-                .body<List<ArticleDto>>()
-        } ?: emptyList()
+        return user?.let { articleService.getMenu(it.username) } ?: emptyList()
     }
 
     @ModelAttribute("homeArticle")
     fun getHomeArticle(request: HttpServletRequest): ArticleDto? {
         val user = getUserFromRequest(request)
         return user?.let {
-            restClient.get()
-                .uri("$articleApi/${it.username + HOME_LINK}")
-                .accept(APPLICATION_JSON)
-                .retrieve()
-                .body<ArticleDto>()
+            articleService.getArticle("${it.username}/$homeSegment")
         }
     }
 
@@ -59,18 +51,14 @@ class LayoutController(private val restClient: RestClient) {
         val user = getUserFromRequest(request)
         var link = String()
         return user?.let {
-            val homeSegmentIndex = request.servletPath.indexOf(HOME_LINK)
+            val homeSegmentIndex = request.servletPath.indexOf(SPLITTER + homeSegment)
             request.servletPath
                 .substring(homeSegmentIndex)
                 .split(SPLITTER)
                 .filter { it.isNotEmpty() }
                 .map {
                     link += SPLITTER + it
-                    restClient.get()
-                        .uri("$articleApi/${user.username}$link")
-                        .accept(APPLICATION_JSON)
-                        .retrieve()
-                        .body<ArticleDto>()
+                    articleService.getArticle(user.username + link)
                 }
         } ?: emptyList()
     }
@@ -78,19 +66,13 @@ class LayoutController(private val restClient: RestClient) {
     private fun getUserFromRequest(request: HttpServletRequest): UserDto? {
         val pathSegments = request.servletPath.split(SPLITTER)
         val username = pathSegments[USERNAME_INDEX]
-        return if(pathSegments.contains(HOME_SEGMENT)) {
-            restClient.get()
-                .uri("$userApi/$username")
-                .accept(APPLICATION_JSON)
-                .retrieve()
-                .body<UserDto>()
+        return if(pathSegments.contains(homeSegment)) {
+            userService.getUser(username)
         } else null
     }
 
     companion object {
         const val SPLITTER = "/"
         const val USERNAME_INDEX = 1
-        const val HOME_LINK = "/home"
-        const val HOME_SEGMENT = "home"
     }
 }
