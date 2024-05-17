@@ -3,7 +3,7 @@ services:
   persistence:
     build:
       context: .
-      dockerfile: /persistence/Dockerfile
+      dockerfile: ./persistence/Dockerfile
     depends_on:
       - db
     environment:
@@ -11,10 +11,11 @@ services:
       - DB_URL=${DB_URL_HOSTING_ENV}
       - DB_USERNAME=${DB_USERNAME_HOSTING_ENV}
       - DB_PASSWORD=${DB_PASSWORD_HOSTING_ENV}
+      - URL=http://persistence:8081
   webapp:
     build:
       context: .
-      dockerfile: /webapp/Dockerfile
+      dockerfile: ./webapp/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -22,6 +23,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - PERSISTENCE_API=http://persistence:8081
+      - URL=http://webapp:8080
   db:
     image: postgres
     restart: always

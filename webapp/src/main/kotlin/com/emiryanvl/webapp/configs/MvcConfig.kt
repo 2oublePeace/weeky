@@ -18,7 +18,4 @@ class MvcConfig : WebMvcConfigurer {
         registry.addResourceHandler("/js/**")
             .addResourceLocations("classpath:/static/js/")
     }
-
-    @Bean
-    fun restClient() = RestClient.create()
 }
