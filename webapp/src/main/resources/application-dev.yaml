@@ -1,3 +1,4 @@
+url: http://localhost:8080
 api:
   article: http://localhost:8081/article
   user: http://localhost:8081/user

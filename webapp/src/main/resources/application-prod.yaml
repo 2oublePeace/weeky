@@ -1,3 +1,5 @@
+url: ${URL}
 api:
-  article: ${PERSISTENCE_API}:8081/article
+  article: ${PERSISTENCE_API}/article
   user: ${PERSISTENCE_API}/user
+home-segment: home
