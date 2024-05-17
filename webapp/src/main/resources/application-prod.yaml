@@ -1,5 +1,5 @@
-url: ${URL}
 api:
   article: ${PERSISTENCE_API}/article
   user: ${PERSISTENCE_API}/user
 home-segment: home
+ping-url: ${PING_URL}

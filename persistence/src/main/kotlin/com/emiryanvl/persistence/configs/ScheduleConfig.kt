@@ -10,13 +10,13 @@ import org.springframework.web.client.RestClient
 @Component
 @EnableScheduling
 class ScheduleConfig(private val restClient: RestClient) {
-    @Value("\${url}")
+    @Value("\${ping-url}")
     private lateinit var url: String
 
     @Scheduled(fixedRate = 45000)
     fun scheduledSelfPing() {
         restClient.get()
-            .uri(url)
+            .uri("http://localhost:8081")
             .accept(APPLICATION_JSON)
     }
 }

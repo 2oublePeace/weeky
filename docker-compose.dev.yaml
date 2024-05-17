@@ -11,7 +11,7 @@ services:
       - DB_URL=jdbc:postgresql://db:5432/weeky
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
-      - URL=http://persistence:8081
+      - PING_URL=http://persistence:8081
   webapp:
     build:
       context: .
@@ -23,7 +23,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - PERSISTENCE_API=http://persistence:8081
-      - URL=http://webapp:8080
+      - PING_URL=http://webapp:8080
   db:
     image: postgres
     restart: always

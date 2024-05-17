@@ -1,4 +1,3 @@
-url: ${URL}
 spring:
   datasource:
     url: ${DB_URL}
@@ -10,3 +9,4 @@ spring:
     open-in-view: false
 server:
   port: 8081
+ping-url: ${PING_URL}

@@ -14,11 +14,13 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.TestPropertySource
 import java.sql.Date
 import java.time.LocalDate
 import java.util.*
 
 @SpringBootTest
+@TestPropertySource(properties = ["ping-url=http://localhost:8081"])
 class UserServiceImplTest {
     private val articleRepository = mockk<ArticleRepository>()
     private val userRepository = mockk<UserRepository>()
